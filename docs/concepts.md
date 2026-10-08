@@ -1,6 +1,6 @@
 # Qal'a (قلعة): Game Concepts (Step 1)
 
-Status: **proposal, waiting for a pick.** Nothing below is final. The balance lab (step 3) will change numbers such as piece counts, ranges and turn limits.
+Status: **Concept 1 (Wells & Walls) chosen.** Full rules are in `docs/rules.md`. Nothing below is final. The balance lab (step 3) will change numbers such as piece counts, ranges and turn limits.
 
 ## Design constraints (from the brief)
 

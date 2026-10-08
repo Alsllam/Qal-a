@@ -1,0 +1,23 @@
+name: game_core
+
+on:
+  push:
+    paths: ['packages/game_core/**', '.github/workflows/game_core.yml']
+  pull_request:
+    paths: ['packages/game_core/**', '.github/workflows/game_core.yml']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/game_core
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 3.5.4
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: dart analyze --fatal-infos
+      - run: dart test
