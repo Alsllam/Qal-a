@@ -1,10 +1,9 @@
 import 'dart:isolate';
 import 'dart:math';
 
+import 'package:game_ai/game_ai.dart';
 import 'package:game_core/game_core.dart';
 
-import 'players.dart';
-import 'search.dart';
 import 'variants.dart';
 
 /// Recipe for a player, so it can be rebuilt inside a worker isolate.

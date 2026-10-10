@@ -2,9 +2,9 @@ name: balance
 
 on:
   push:
-    paths: ['tools/balance/**', 'packages/game_core/**', '.github/workflows/balance.yml']
+    paths: ['tools/balance/**', 'packages/**', '.github/workflows/balance.yml']
   pull_request:
-    paths: ['tools/balance/**', 'packages/game_core/**', '.github/workflows/balance.yml']
+    paths: ['tools/balance/**', 'packages/**', '.github/workflows/balance.yml']
 
 jobs:
   test:

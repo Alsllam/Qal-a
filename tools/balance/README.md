@@ -19,8 +19,7 @@ Reports are written to `reports/v<version>.md`.
 
 | File | What it does |
 |---|---|
-| `lib/src/evaluator.dart` | Heuristic evaluation (material, supply, Wells, advance). Mirror-symmetric |
-| `lib/src/search.dart` | `AlphaBetaPlayer`: negamax alpha-beta, capture quiescence, MVV ordering, noise for variety |
+| `packages/game_ai` | The AI itself (evaluation and `AlphaBetaPlayer`), shared with the prototype app |
 | `lib/src/match_runner.dart` | Plays games on all CPU cores; one seed per game, so results are reproducible |
 | `lib/src/stats.dart` | Aggregates game records |
 | `lib/src/report.dart` | Balance targets, checks and the Markdown report |

@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   args: ^2.5.0
+  game_ai:
+    path: ../../packages/game_ai
   game_core:
     path: ../../packages/game_core
 

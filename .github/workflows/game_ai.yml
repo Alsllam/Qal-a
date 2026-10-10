@@ -1,0 +1,23 @@
+name: game_ai
+
+on:
+  push:
+    paths: ['packages/game_ai/**', 'packages/game_core/**', '.github/workflows/game_ai.yml']
+  pull_request:
+    paths: ['packages/game_ai/**', 'packages/game_core/**', '.github/workflows/game_ai.yml']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/game_ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 3.5.4
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: dart analyze --fatal-infos
+      - run: dart test
