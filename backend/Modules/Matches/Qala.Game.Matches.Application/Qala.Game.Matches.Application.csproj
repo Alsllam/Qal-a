@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Matches application layer: MatchesAppService, the MatchHub (SignalR), matchmaking, clocks, balance stats.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Qala.Game.Matches.EntityFrameworkCore\Qala.Game.Matches.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Qala.Framework.Application\Qala.Framework.Application.csproj" />
+  </ItemGroup>
+</Project>

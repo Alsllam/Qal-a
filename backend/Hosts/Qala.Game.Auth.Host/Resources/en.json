@@ -1,0 +1,11 @@
+{
+  "Auth": {
+    "Login": {
+      "Title": "Sign in to Qal'a",
+      "Email": "Email",
+      "Password": "Password",
+      "Submit": "Sign in",
+      "Failed": "The email or password is wrong, or the account is locked."
+    }
+  }
+}

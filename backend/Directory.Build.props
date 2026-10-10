@@ -1,0 +1,13 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- XML docs feed Swagger; missing docs on every DTO member are not worth a warning. -->
+    <NoWarn>$(NoWarn);CS1591;CS1573</NoWarn>
+    <Company>Qala</Company>
+    <Product>Qal'a</Product>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,27 @@
+{
+  "General": {
+    "Business": {
+      "NotFound": "The requested item was not found.",
+      "DeleteNotAllowed": "This item cannot be deleted because other items depend on it."
+    },
+    "Security": {
+      "Forbidden": "You do not have permission to do this.",
+      "Unauthorized": "Please sign in to continue."
+    },
+    "Errors": {
+      "Unexpected": "Something went wrong. Please try again.",
+      "ServiceUnavailable": "The service is temporarily unavailable. Please try again shortly.",
+      "InvalidRequest": "The request could not be read.",
+      "ConcurrencyConflict": "This item was changed by someone else. Please reload and try again.",
+      "RateLimited": "Too many requests. Please slow down."
+    },
+    "Fields": {
+      "Required": "This field is required.",
+      "InvalidCharacters": "This field contains characters that are not allowed.",
+      "MaxLength": "This field is too long.",
+      "MinLength": "This field is too short.",
+      "AlreadyExist": "This value is already in use.",
+      "InvalidValue": "This value is not valid."
+    }
+  }
+}

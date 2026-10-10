@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>OpenIddict server (authorization code + PKCE, refresh tokens) with a minimal login.</Description>
+    <UserSecretsId>qala-game-auth-host</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenIddict.AspNetCore" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Qala.Framework.Application\Qala.Framework.Application.csproj" />
+    <ProjectReference Include="..\..\Shared\Qala.Framework.EntityFrameworkCore\Qala.Framework.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+</Project>

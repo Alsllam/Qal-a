@@ -1,0 +1,45 @@
+# Development infrastructure for the Qal'a backend (SQL Server, RabbitMQ, Redis).
+# Passwords come from the environment or a .env file next to this file (see .env.example); nothing secret is committed.
+#   cp .env.example .env   # then set real passwords
+#   docker compose up -d
+name: qala-dev
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${QALA_SQL_PASSWORD:?Set QALA_SQL_PASSWORD (8+ chars, upper, lower, digit, symbol)}
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P \"$$MSSQL_SA_PASSWORD\" -C -Q 'SELECT 1' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${QALA_RABBITMQ_USER:-qala}
+      RABBITMQ_DEFAULT_PASS: ${QALA_RABBITMQ_PASSWORD:?Set QALA_RABBITMQ_PASSWORD}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Not used yet: the distributed permission cache and the SignalR backplane are TODO (see README).
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  sqlserver-data:

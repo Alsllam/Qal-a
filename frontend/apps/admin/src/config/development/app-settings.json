@@ -2,7 +2,7 @@
   "application": { "name": "Qal'a Admin", "baseUrl": "http://localhost:4200" },
   "oAuthConfig": {
     "issuer": "https://localhost:5000/",
-    "clientId": "Qala_Admin",
+    "clientId": "qala-admin",
     "responseType": "code",
     "scope": "openid profile email offline_access players-api matches-api",
     "requireHttps": false,

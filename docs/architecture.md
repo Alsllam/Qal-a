@@ -50,15 +50,17 @@ This is the contract between the apps and services in this monorepo. When an end
 |---|---|---|
 | `Qala.Game.BFF.Host` | 5000 | — |
 | `Qala.Game.Auth.Host` | 5001 | `/connect/**`, `/account/**`, `/.well-known/**` |
-| `Qala.Game.Matches.Host` | 5101 | `/matches-api/**`, `/hubs/match` (WebSocket) |
-| `Qala.Game.Players.Host` | 5102 | `/players-api/**` |
+| `Qala.Game.Matches.Host` | 5101 | `/matches-api/**` → host path `/matches/**` (prefix stripped), `/hubs/match` (WebSocket) |
+| `Qala.Game.Players.Host` | 5102 | `/players-api/**` → host path `/players/**` (prefix stripped) |
 | `ai-service` | 8000 | `/ai-api/**` |
 | `frontend` (dev server) | 4200 | — |
 
 ## 4. Auth
 
 - OpenIddict, authorization code + PKCE for the mobile app and admin console. Refresh tokens are on.
-- Scopes and audiences: `players-api`, `matches-api`, `ai-api`.
+- Clients (seeded by `Qala.Game.DbMigrator`): `qala-mobile` and `qala-admin`, both public with PKCE.
+- Scopes and audiences: `players-api`, `matches-api`, `ai-api`. Access tokens are signed but **not encrypted** (`DisableAccessTokenEncryption`), so the Python AI service can validate them through the JWKS.
+- Permissions travel as `permission` claims in the access token (backend, AI service and admin console all read this claim). A distributed-cache lookup is a later improvement.
 - Guest play: the app can play offline, and against the AI, without an account. Online play requires sign-in (email or phone OTP, plus Apple/Google later).
 - Permissions follow `Permissions.{Area}.{Action}`, e.g. `Permissions.Matches.ViewMatch`, `Permissions.Players.ManagePlayer`, `Permissions.Content.ManageLessons`, `Permissions.Dashboard.ViewBalance`.
 
@@ -74,7 +76,7 @@ This is the contract between the apps and services in this monorepo. When an end
 | `POST leaderboard` | `{ skipCount, maxResultCount }` → paged `{ rank, displayName, rating }` | signed in |
 | `POST activate` / `deactivate` | `{ id }` (ban / unban) | `Permissions.Players.ManagePlayer` |
 
-Ratings use **Glicko-2**, starting at 1500 ± 350. They are updated by the `MatchFinishedEto` consumer.
+Player ids in matches and events are the auth `sub` user ids. Ratings use **Glicko-2**, starting at 1500 ± 350. They are updated by the `MatchFinishedEto` consumer.
 
 ### Matches (`/matches-api/matches`)
 | Endpoint | Body → Result | Permission |
@@ -91,7 +93,9 @@ Ratings use **Glicko-2**, starting at 1500 ± 350. They are updated by the `Matc
 `MatchDto`:
 
 ```json
-{ "id": "…", "rulesVersion": "0.6", "status": "Active|Finished|Aborted",
+{ "id": "…", "rulesVersion": "0.6", "status": "Waiting|Active|Finished|Aborted",
+  "ply": 12, "toMove": "south|north", "timeControl": { "initialMs": 240000, "incrementMs": 2000 },
+  "challengeCode": "K7Q2PX" | null,
   "south": { "playerId": "…", "displayName": "…", "rating": 1500 },
   "north": { … }, "position": "<notation incl. water>", "moves": ["c2-c3", …],
   "clocks": { "southMs": 240000, "northMs": 240000, "incrementMs": 2000 },

@@ -1,0 +1,43 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <EfVersion>9.0.20</EfVersion>
+    <AspNetVersion>9.0.20</AspNetVersion>
+    <OpenIddictVersion>6.4.0</OpenIddictVersion>
+    <MassTransitVersion>8.5.11</MassTransitVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Persistence -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="$(EfVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="$(EfVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(EfVersion)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfVersion)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetVersion)" />
+    <PackageVersion Include="Microsoft.Extensions.Identity.Stores" Version="$(AspNetVersion)" />
+    <PackageVersion Include="System.Linq.Dynamic.Core" Version="1.7.4" />
+    <!-- Auth -->
+    <PackageVersion Include="OpenIddict.AspNetCore" Version="$(OpenIddictVersion)" />
+    <PackageVersion Include="OpenIddict.EntityFrameworkCore" Version="$(OpenIddictVersion)" />
+    <PackageVersion Include="OpenIddict.Validation.AspNetCore" Version="$(OpenIddictVersion)" />
+    <PackageVersion Include="OpenIddict.Validation.SystemNetHttp" Version="$(OpenIddictVersion)" />
+    <!-- Messaging (MassTransit 8.x is the last Apache-2.0 line) -->
+    <PackageVersion Include="MassTransit" Version="$(MassTransitVersion)" />
+    <PackageVersion Include="MassTransit.RabbitMQ" Version="$(MassTransitVersion)" />
+    <!-- Web -->
+    <PackageVersion Include="FluentValidation" Version="11.11.0" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0" />
+    <PackageVersion Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageVersion Include="Yarp.ReverseProxy" Version="2.3.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(AspNetVersion)" />
+    <!-- Tests -->
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="xunit" Version="2.9.3" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageVersion Include="FakeItEasy" Version="8.3.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="$(AspNetVersion)" />
+  </ItemGroup>
+</Project>

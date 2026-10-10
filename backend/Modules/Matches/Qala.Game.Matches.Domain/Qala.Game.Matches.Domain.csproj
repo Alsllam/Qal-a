@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Matches domain: the Match aggregate (moves, clocks, outcome) validated by Qala.Game.Rules.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Qala.Framework.Domain\Qala.Framework.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Qala.Game.Rules\Qala.Game.Rules.csproj" />
+  </ItemGroup>
+</Project>

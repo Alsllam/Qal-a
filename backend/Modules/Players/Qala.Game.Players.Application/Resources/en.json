@@ -1,0 +1,14 @@
+{
+  "Players": {
+    "Errors": {
+      "ProfileNotFound": "Your player profile does not exist yet. Open your profile first.",
+      "Banned": "This account has been suspended.",
+      "UnsupportedLocale": "The language must be Arabic (ar) or English (en)."
+    }
+  },
+  "Fields": {
+    "DisplayName": "Display name",
+    "AvatarId": "Avatar",
+    "Locale": "Language"
+  }
+}

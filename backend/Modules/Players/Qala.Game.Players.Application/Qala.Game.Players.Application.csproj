@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Players application layer: PlayersAppService, leaderboard, the MatchFinished rating consumer.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MassTransit" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Qala.Game.Players.EntityFrameworkCore\Qala.Game.Players.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Qala.Framework.Application\Qala.Framework.Application.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Matches persistence: MatchesDbContext (schema "matches"), configurations, migrations.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Qala.Game.Matches.Domain\Qala.Game.Matches.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Qala.Framework.EntityFrameworkCore\Qala.Framework.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+</Project>

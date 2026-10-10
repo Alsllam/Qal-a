@@ -1,0 +1,26 @@
+{
+  "Matches": {
+    "Errors": {
+      "NotActive": "This match is not in progress.",
+      "NotParticipant": "You are not a player in this match.",
+      "NotYourTurn": "It is not your turn.",
+      "StalePly": "This move is out of date. The board has been refreshed.",
+      "IllegalMove": "That move is not allowed.",
+      "Timeout": "Your time ran out.",
+      "ChallengeNotFound": "No open challenge has this code.",
+      "OwnChallenge": "You cannot accept your own challenge.",
+      "InvalidTimeControl": "The time control must look like 4+2 (minutes + seconds).",
+      "InvalidChallengeCode": "A challenge code has 6 letters and digits.",
+      "InvalidStatsRange": "The date range is not valid (at most one year).",
+      "TicketNotFound": "You are not in the matchmaking queue.",
+      "Conflict": "Another move was played at the same time. The board has been refreshed."
+    }
+  },
+  "Fields": {
+    "TimeControl": "Time control",
+    "Code": "Code",
+    "From": "From",
+    "To": "To",
+    "RulesVersion": "Rules version"
+  }
+}

@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>C# port of packages/game_core (Qal'a rules). Kept identical by the shared test vectors.</Description>
+    <RootNamespace>Qala.Game.Rules</RootNamespace>
+  </PropertyGroup>
+</Project>

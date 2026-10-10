@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>Thin web host for the Matches module (API + SignalR hub).</Description>
+    <UserSecretsId>qala-game-matches-host</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Modules\Matches\Qala.Game.Matches.Application\Qala.Game.Matches.Application.csproj" />
+  </ItemGroup>
+</Project>

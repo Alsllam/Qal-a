@@ -86,10 +86,7 @@ Jest, per project: `npx nx test <project>`. The suites cover:
 
 ## TODO / known gaps
 
-- **Backend contract details to confirm:**
-  - the `BalanceStatsDto` shape (proposed in `libs/shared/matches-proxy/src/lib/models/match.model.ts`; `docs/architecture.md` lists only its content);
-  - the name of the permission claim in the access token (`permission`/`permissions` is assumed, in `readPermissionClaims`);
-  - the OIDC client id `Qala_Admin`.
+- **Backend contract:** aligned with `backend/` (step 5 integration): `BalanceStatsDto` (the backend also sends `drawRate`, per-reason `share` and per-day `meanPlies`), permissions as `permission` claims, and OIDC client id `qala-admin`. The real OIDC flow still needs a run against the Auth host.
 - **Replay water points:** water is shown only on the final position, from `MatchDto.position`. Intermediate water needs the rules engine, or per-ply positions from the server.
 - **Deviations from the house skill:**
   - No Bootstrap / ng-bootstrap / ngx-datatable yet. A small token-based CSS layer with logical properties and the `<app-paged-table>` wrapper cover this skeleton.

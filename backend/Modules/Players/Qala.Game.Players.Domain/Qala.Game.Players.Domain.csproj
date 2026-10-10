@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>Players domain: player profiles and Glicko-2 ratings.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Qala.Framework.Domain\Qala.Framework.Domain.csproj" />
+  </ItemGroup>
+</Project>

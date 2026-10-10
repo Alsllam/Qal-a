@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <Description>YARP gateway: the only internet-facing host. Routes per docs/architecture.md §3.</Description>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Yarp.ReverseProxy" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Qala.Framework.Application\Qala.Framework.Application.csproj" />
+  </ItemGroup>
+</Project>
