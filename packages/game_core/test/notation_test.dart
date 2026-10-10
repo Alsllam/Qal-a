@@ -6,7 +6,7 @@ import 'helpers.dart';
 void main() {
   test('initial position matches the standard setup', () {
     final state = GameState.initial();
-    expect(state.toNotation(), '1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0');
+    expect(state.toNotation(), '1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0 0:0');
     expect(state.toMove, Side.south);
     expect(state.ply, 0);
     expect(state.isOver, isFalse);
@@ -25,7 +25,7 @@ void main() {
   });
 
   test('notation round-trips', () {
-    const text = '3a3/7/2R4/1F1j3/7/7/3A3 n 17';
+    const text = '3a3/7/2R4/1F1j3/7/7/3A3 n 17 4:2';
     final state = GameState.fromNotation(text);
     expect(state.toNotation(), text);
     expect(GameState.fromNotation(state.toNotation()), state);

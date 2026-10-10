@@ -17,10 +17,23 @@ class RuleSet {
     this.southQala = const Square(3, 0),
     this.northQala = const Square(3, 6),
     this.setup = standardSetup,
+    this.waterToWin,
+    this.wellsAreSources = true,
+    this.waterNeedsSupply = false,
+    this.northStartWater = 0,
   });
 
-  /// Rules version 0.1, as written in docs/rules.md.
-  static const RuleSet standard = RuleSet(version: '0.1');
+  /// The current rules, as written in docs/rules.md (version 0.3, chosen by
+  /// the balance lab; see docs/balance-log.md).
+  static const RuleSet standard = RuleSet(
+    version: '0.3',
+    waterToWin: 10,
+    wellsAreSources: false,
+    waterNeedsSupply: true,
+  );
+
+  /// The first ruleset, kept for reference and tests.
+  static const RuleSet v0_1 = RuleSet(version: '0.1');
 
   /// Rules version label, recorded in docs/balance-log.md.
   final String version;
@@ -46,6 +59,20 @@ class RuleSet {
   /// Board part of the opening position in position notation.
   final String setup;
 
+  /// Water points needed to win, or null if the rule is off. At the start of
+  /// each of your turns you gain 1 water point per Well you hold.
+  final int? waterToWin;
+
+  /// Whether a piece standing on a Well is a water source for supply.
+  final bool wellsAreSources;
+
+  /// Whether a Well earns water points only while the piece on it is
+  /// supplied.
+  final bool waterNeedsSupply;
+
+  /// Water points North starts with (compensation for moving second).
+  final int northStartWater;
+
   Square qalaOf(Side side) => side == Side.south ? southQala : northQala;
 
   RuleSet copyWith({
@@ -58,6 +85,10 @@ class RuleSet {
     Square? southQala,
     Square? northQala,
     String? setup,
+    int? Function()? waterToWin,
+    bool? wellsAreSources,
+    bool? waterNeedsSupply,
+    int? northStartWater,
   }) =>
       RuleSet(
         version: version ?? this.version,
@@ -69,5 +100,9 @@ class RuleSet {
         southQala: southQala ?? this.southQala,
         northQala: northQala ?? this.northQala,
         setup: setup ?? this.setup,
+        waterToWin: waterToWin == null ? this.waterToWin : waterToWin(),
+        wellsAreSources: wellsAreSources ?? this.wellsAreSources,
+        waterNeedsSupply: waterNeedsSupply ?? this.waterNeedsSupply,
+        northStartWater: northStartWater ?? this.northStartWater,
       );
 }

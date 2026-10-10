@@ -1,18 +1,19 @@
 # Qal'a (قلعة): Wells & Walls, Official Rules
 
-**Rules version 0.1** (pre-balance). The balance lab (step 3) will tune the numbers marked ⚙ and record every change in `docs/balance-log.md`. The reference implementation is `packages/game_core`. If this document and the code ever disagree, that is a bug; please report it.
+**Rules version 0.3** (chosen by the balance lab; see `docs/balance-log.md` for why each rule is the way it is). Numbers marked ⚙ may still change after playtesting. The reference implementation is `packages/game_core`. If this document and the code ever disagree, that is a bug; please report it.
 
 ---
 
 ## 1. The idea in one paragraph
 
-Two desert fortresses face each other across the sand. Between them lie two wells. **An army fights only while it has water.** A soldier linked to water by a chain of comrades can strike. A soldier who wanders off alone can still walk, but cannot attack. You win by **capturing the enemy Amir** or by **planting a supplied piece on the enemy fortress**.
+Two desert fortresses face each other across the sand. Between them lie two wells. **An army fights only while it has water.** A soldier linked to the fortress or the Amir by a chain of comrades can strike. A soldier who wanders off alone can still walk, but cannot attack. Hold the wells with a linked army to collect **water points**. You win by **capturing the enemy Amir**, **planting a supplied piece on the enemy fortress**, or **collecting 10 water points**.
 
 ## 2. Components
 
 - A 7×7 board. Files are **a–g** (left to right) and ranks are **1–7** (from South's side).
 - Two **Qal'a** squares (fortress keeps): **d1** for South and **d7** for North.
 - Two **Wells** (آبار): **c4** and **e4** ⚙.
+- A water counter for each player (0–10), starting at 0.
 - Two armies of 8 pieces. **South** (light, upper-case letters) moves first. **North** (dark, lower-case letters) moves second.
 
 | Piece | Letter | Count | In one line |
@@ -120,8 +121,9 @@ Example: the shot is blocked
 
 ### Water sources (for your side)
 1. **Your Qal'a.** Your pieces standing **on or next to** your Qal'a square (including diagonally) are supplied. Exception: while an **enemy piece stands on your Qal'a**, it gives you no water.
-2. **A Well you occupy.** A piece of yours standing on a Well is supplied. An empty Well, or one held by the enemy, gives you nothing.
-3. **Your Amir.** "Where the Amir camps, there is water." Your Amir is always supplied ⚙.
+2. **Your Amir.** "Where the Amir camps, there is water." Your Amir is always supplied ⚙.
+
+Wells are **not** sources. A piece on a Well is supplied only if it is linked to your Qal'a or Amir like any other piece (see §7 for what Wells do).
 
 ### Chains
 Water flows from piece to piece. **Any piece of yours touching a supplied piece of yours is also supplied.** Touching means the 8 surrounding squares, diagonals included. Enemy pieces never pass water along.
@@ -131,9 +133,9 @@ Example (South):
 
       a   b   c   d   e   f   g
   5 │   │   │   │   │   │   │ J'│   J' on g5: no chain to any source → UNSUPPLIED
-  4 │   │   │ ≈ │   │ F │   │   │   F on e4 stands on a Well → supplied
-  3 │   │   │   │ J │   │   │   │   J on d3 touches F (diagonal) → supplied
-  2 │   │ J'│   │   │   │   │   │   J' on b2 touches nothing → UNSUPPLIED
+  4 │   │   │ ≈ │   │ F │   │   │   F on the e4 Well: linked e3 → d2 → A → supplied
+  3 │   │ J'│   │   │ J │   │   │   J' on b3 touches nothing → UNSUPPLIED
+  2 │   │   │   │ J │   │   │   │   J on d2 touches the Amir → supplied
   1 │   │   │   │ A │   │   │   │   A is a source → supplied
 ```
 
@@ -144,11 +146,11 @@ In the app, supplied pieces glow, so players never have to calculate supply them
 - **After your move:** supply is recalculated from the new position. A capture can **cut** an enemy chain and leave the pieces beyond the cut without water from the next turn on.
 
 ```
-Cutting the line (North to move)
+Cutting the line (North to move; North's own chain to its Amir is not shown)
 
       a   b   c   d   e   f   g
   5 │   │   │   │ J │   │   │   │
-  4 │   │   │ j │ J │   │   │   │   c4 = Well held by North → j on c3 is supplied
+  4 │   │   │ j │ J │   │   │   │   North's c4 and c3 are linked to the North Amir
   3 │   │   │ j │ J │   │   │   │
   2 │   │   │   │ J │   │   │   │
   1 │   │   │   │ A │   │   │   │
@@ -157,7 +159,22 @@ North plays c3xd3. South's d4 and d5 are now cut off from the Amir and the
 Qal'a: they can still move, but they cannot capture until they reconnect.
 ```
 
-## 7. How to win
+## 7. Wells and water points
+
+At the **start of each of your turns**, you gain **1 water point for each Well held by a supplied piece of yours**. A Well held by an unsupplied piece earns nothing. Water points are never lost.
+
+```
+Start of South's turn:
+      a   b   c   d   e   f   g
+  4 │   │   │ J │   │ J'│   │   │   c4: linked c3 → Amir → +1
+  3 │   │   │ J │   │   │   │   │   e4: touches nothing → +0
+  2 │   │   │   │ A │   │   │   │
+South gains 1 water point.
+```
+
+You only score a Well that you still hold after your opponent's turn, so grabbing one is not enough: you must defend it for a full turn.
+
+## 8. How to win
 
 The game ends **immediately** when one of these happens:
 
@@ -165,17 +182,21 @@ The game ends **immediately** when one of these happens:
 2. **Take the Qal'a.** If at the **end of your turn** one of your **supplied** pieces stands on the **enemy Qal'a**, you win.
    - An unsupplied piece standing there does not win yet. If a later move of yours brings water to it, you win at the end of that turn.
    - Your Amir is always supplied, so your Amir walking into the enemy Qal'a wins.
-3. **No moves.** If it is your opponent's turn and they have **no legal move**, you win. (This is rare.)
+3. **Water victory.** If at the start of your turn your water reaches **10 points** ⚙, you win.
+4. **No moves.** If it is your opponent's turn and they have **no legal move**, you win. (This is rare.)
+
+If your move wins by 1 or 2, that win counts even if your opponent would reach 10 water at the start of their turn.
 
 ### Time limit: the 60-ply rule ⚙
 If nobody has won after **60 plies** (30 moves each), the game ends and is decided in this order:
-1. The player holding **more Wells** wins.
-2. If Wells are tied, the player with **more pieces** on the board wins.
-3. If pieces are also tied, the game is a **draw**.
+1. The player with **more water points** wins.
+2. If water is tied, the player holding **more Wells** wins.
+3. If Wells are tied, the player with **more pieces** on the board wins.
+4. If pieces are also tied, the game is a **draw**.
 
-Most games should finish well before the limit. The rule is there so that a mobile game always ends within 5–10 minutes, and so that the Wells matter from the first move.
+In the balance lab about 85% of games end before the limit, and fewer than 1% are draws.
 
-## 8. Quick-reference card
+## 9. Quick-reference card
 
 ```
 ┌──────────────────────────────── QAL'A ────────────────────────────────┐
@@ -183,16 +204,18 @@ Most games should finish well before the limit. The rule is there so that a mobi
 │ A Amir   1 step any way          J Jundi  1 step + (no diagonal)      │
 │ F Faris  slide 1–3, + only       R Rami   step 1 diagonal;            │
 │                                           SHOOT 2 away, gap empty     │
-│ WATER:   only supplied pieces capture/shoot.                          │
-│          Sources = your Qal'a (on/next to it), Wells you hold,        │
-│          your Amir. Touching friends pass water on.                   │
+│ SUPPLY:  only supplied pieces capture/shoot.                          │
+│          Sources = your Qal'a (on/next to it) and your Amir.          │
+│          Touching friends pass water on.                              │
+│ WELLS:   start of your turn: +1 water per Well held by a supplied     │
+│          piece.                                                       │
 │ WIN:     capture the Amir  •  supplied piece on enemy Qal'a           │
-│          •  opponent has no move                                      │
-│ PLY 60:  more Wells → more pieces → draw                              │
+│          •  10 water  •  opponent has no move                         │
+│ PLY 60:  more water → more Wells → more pieces → draw                 │
 └───────────────────────────────────────────────────────────────────────┘
 ```
 
-## 9. Notation
+## 10. Notation
 
 **Squares:** `a1` … `g7`.
 
@@ -203,34 +226,37 @@ Most games should finish well before the limit. The rule is there so that a mobi
 | Capture | `fromxto` | `c3xd3` |
 | Shot | `from*target` | `d2*d4` |
 
-**Positions:** ranks 7 to 1 separated by `/`. Upper case is South and lower case is North; a digit is a run of empty squares. After a space comes the side to move (`s`/`n`), then the number of plies played. The opening position is:
+**Positions:** ranks 7 to 1 separated by `/`. Upper case is South and lower case is North; a digit is a run of empty squares. After a space come the side to move (`s`/`n`), the number of plies played, and the water points as `south:north`. The opening position is:
 
 ```
-1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0
+1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0 0:0
 ```
 
-## 10. Rulings and FAQ
+## 11. Rulings and FAQ
 
 - **Can a piece stand on its own Qal'a?** Yes. It is supplied there.
 - **Can an enemy piece stand on my Qal'a without winning?** Yes, if it is unsupplied. While it is there, your Qal'a gives you no water. Capture it!
 - **Does the Rami need water to step?** No. Only captures and shots need water.
 - **Can the Faris capture an enemy hidden behind another piece?** No. It stops at the first piece it reaches.
-- **Can my piece on an enemy-held Well get water from it?** No. Only *your* piece on a Well makes it your source, and two pieces can never share a square.
+- **Does standing on a Well make my piece supplied?** No (since v0.3). It must be linked to your Qal'a or Amir. If it isn't, the Well earns you no water points either.
+- **Do I lose water points when I lose a Well?** No. Points are never lost; you just stop earning them.
 - **Does a move that leaves my Amir attacked count as illegal (like "check")?** No. There is no check. If you leave your Amir where it can be captured, the opponent may simply take it.
 - **Can I capture my own pieces?** No.
 - **Is there any luck?** None. Both players see everything.
-- **First-player advantage?** The balance lab will measure it. If needed, the **pie rule** is ready for ranked play: after South's first move, North may choose to swap sides.
+- **First-player advantage?** In the balance lab, South (first) and North score within a few points of 50%. If playtesting shows otherwise, the **pie rule** is ready for ranked play: after South's first move, North may choose to swap sides.
 
-## 11. Teaching script (≈5 minutes)
+## 12. Teaching script (≈5 minutes)
 
-1. *"Capture their Amir, or walk into their castle. That's how you win."* Point to the Amirs and the two Qal'a squares.
+1. *"Capture their Amir, walk into their castle, or fill your water to 10. That's how you win."* Point to the Amirs, the two Qal'a squares and the Wells.
 2. *"Four pieces."* Show the Amir, Jundi and Faris moves on an empty board. Then show the Rami step and shot.
-3. *"Here's the twist: water."* Show a chain glowing from the Amir and from a Well, then break it with one capture. *"Without water you can walk, but you can't attack."*
-4. *"Wells matter twice: they give water, and they break ties at move 30."*
+3. *"Here's the twist: water."* Show a chain glowing from the Amir and the Qal'a, then break it with one capture. *"Without water you can walk, but you can't attack."*
+4. *"Hold a Well with a linked piece and you earn a water point each turn. Ten points wins."*
 5. Play.
 
-## 12. Version history
+## 13. Version history
 
 | Version | Date | Change |
 |---|---|---|
+| 0.3 | 2026-10-10 | From the balance lab: Wells are no longer supply sources; water points (+1 per supplied Well at the start of your turn, 10 wins); ply limit decided by water first. Fixes North's last-move advantage and the 87% of games that ran to the limit in v0.1 |
+| 0.2 | — | Explored only (water points with Wells still sources); never adopted |
 | 0.1 | 2026-10-08 | First complete ruleset, from Concept 1 in `docs/concepts.md`. Changes from the concept draft: 8 pieces with 1 Rami; Qal'a supply is "on or next to"; the ply limit is 60 with a Wells → pieces → draw tiebreak; a player with no legal move loses |

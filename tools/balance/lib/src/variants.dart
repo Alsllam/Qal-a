@@ -15,5 +15,45 @@ class RuleVariant {
 /// Every rules version tried, in order. Entries are never removed, so old
 /// reports can be reproduced.
 final Map<String, RuleVariant> ruleVariants = {
-  '0.1': const RuleVariant(RuleSet.standard, 'First complete ruleset'),
+  '0.1': const RuleVariant(RuleSet(version: '0.1'), 'First complete ruleset'),
+  '0.2': const RuleVariant(
+    RuleSet(version: '0.2', waterToWin: 8),
+    'Water points: +1 per Well held at the start of your turn; 8 wins. '
+    'Ply limit decided by water first',
+  ),
+  '0.2b': const RuleVariant(
+    RuleSet(version: '0.2b', waterToWin: 6),
+    'As 0.2 with 6 water points to win',
+  ),
+  '0.3': const RuleVariant(
+    RuleSet(
+      version: '0.3',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+    ),
+    'Wells are no longer supply sources and score only while supplied '
+    '(linked to your Qal\'a or Amir); 10 water points to win',
+  ),
+  '0.3b': const RuleVariant(
+    RuleSet(
+      version: '0.3b',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+      northStartWater: 1,
+    ),
+    'As 0.3, and North starts with 1 water point',
+  ),
+  '0.4': const RuleVariant(
+    RuleSet(
+      version: '0.4',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+      amirIsSource: false,
+    ),
+    'As 0.3, and the Amir is no longer a water source: all water comes '
+    'from your Qal\'a',
+  ),
 };

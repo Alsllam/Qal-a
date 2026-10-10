@@ -11,6 +11,7 @@ class EvalWeights {
     this.supplied = 0.3,
     this.well = 0.8,
     this.advance = 0.08,
+    this.water = 0.6,
   });
 
   final double jundi;
@@ -25,6 +26,9 @@ class EvalWeights {
 
   /// Bonus per step closer to the enemy Qal'a, for supplied non-Amir pieces.
   final double advance;
+
+  /// Value of one water point (when the water rule is on).
+  final double water;
 
   double valueOf(PieceType type) => switch (type) {
         PieceType.amir => 0,
@@ -56,7 +60,8 @@ class Evaluator {
 
   double _sideScore(GameState state, Side side) {
     final enemyQala = state.rules.qalaOf(side.opponent);
-    var score = weights.well * state.wellsHeld(side);
+    var score = weights.well * state.wellsHeld(side) +
+        weights.water * state.water(side);
     for (final (square, piece) in state.pieces(side)) {
       score += weights.valueOf(piece.type);
       if (piece.type == PieceType.amir || !state.isSupplied(square)) continue;

@@ -49,8 +49,8 @@ void main() {
 
     test('captures orthogonally when supplied', () {
       final state =
-          position({'c4': 'J', 'c5': 'j', 'd5': 'j', 'a1': 'A', 'g7': 'a'});
-      // c4 is a Well, so the Jundi on it is supplied.
+          position({'c4': 'J', 'c5': 'j', 'd5': 'j', 'b3': 'A', 'g7': 'a'});
+      // Touching its Amir, the Jundi is supplied.
       expect(moves(state, 'c4'), {'c4xc5', 'c4-d4', 'c4-c3', 'c4-b4'});
     });
 
@@ -77,9 +77,9 @@ void main() {
     });
 
     test('captures the first enemy in line when supplied, never beyond', () {
-      // Faris on the c4 Well is supplied.
+      // Faris touching its Amir on b3 is supplied.
       final state =
-          position({'c4': 'F', 'c6': 'j', 'c7': 'j', 'g1': 'A', 'g7': 'a'});
+          position({'c4': 'F', 'c6': 'j', 'c7': 'j', 'b3': 'A', 'g7': 'a'});
       final fromC4 = moves(state, 'c4');
       expect(fromC4, containsAll(['c4-c5', 'c4xc6']));
       expect(fromC4, isNot(contains('c4xc7')));
@@ -107,10 +107,10 @@ void main() {
 
     test('shoots enemies exactly two squares away in all eight directions', () {
       final state = position({
-        'd4': 'R', 'e4': 'J', // e4 is a Well: supplies the Rami
+        'd4': 'R', 'e4': 'A', // the Amir supplies the Rami
         'd6': 'j', 'f6': 'j', 'b6': 'j', 'b4': 'j', 'b2': 'j', 'd2': 'j',
         'f2': 'j',
-        'a1': 'A', 'g7': 'a',
+        'g7': 'a',
       });
       final shots = state.legalMoves
           .where((m) => m.kind == MoveKind.shot)
@@ -122,11 +122,11 @@ void main() {
 
     test('cannot shoot through a piece, at distance one, or at friends', () {
       final state = position({
-        'd4': 'R', 'e4': 'J',
+        'd4': 'R', 'e4': 'A', // supplied by the Amir
         'd5': 'J', 'd6': 'j', // blocked by own piece
         'c5': 'j', // distance 1
         'b2': 'J', // friendly target
-        'a1': 'A', 'g7': 'a',
+        'g7': 'a',
       });
       expect(state.legalMoves.where((m) => m.kind == MoveKind.shot), isEmpty);
     });
@@ -137,8 +137,7 @@ void main() {
     });
 
     test('stays on its square after shooting', () {
-      final state =
-          position({'d4': 'R', 'e4': 'J', 'd6': 'j', 'a1': 'A', 'g7': 'a'});
+      final state = position({'d4': 'R', 'e4': 'A', 'd6': 'j', 'g7': 'a'});
       final after = state.play(Move.parse('d4*d6'));
       expect(after.at(Square.parse('d4')),
           const Piece(PieceType.rami, Side.south));
@@ -166,6 +165,6 @@ void main() {
     expect(() => state.play(Move.parse('b1xb4')), throwsArgumentError);
     final after = state.play(Move.parse('b1-b4'));
     expect(state.toNotation(), before);
-    expect(after.toNotation(), '1fjajf1/2jrj2/7/1F5/7/2JRJ2/2JAJF1 n 1');
+    expect(after.toNotation(), '1fjajf1/2jrj2/7/1F5/7/2JRJ2/2JAJF1 n 1 0:0');
   });
 }

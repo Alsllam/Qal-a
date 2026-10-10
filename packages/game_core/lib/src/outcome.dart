@@ -11,6 +11,12 @@ enum EndReason {
   /// The loser had no legal move on their turn.
   noLegalMoves,
 
+  /// The winner reached `RuleSet.waterToWin` water points.
+  waterVictory,
+
+  /// Ply limit reached; the winner had more water points.
+  plyLimitWater,
+
   /// Ply limit reached; the winner held more Wells.
   plyLimitWells,
 

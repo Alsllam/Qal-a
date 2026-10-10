@@ -20,22 +20,35 @@ final List<List<int>> _neighbours = List.generate(squareCount, (i) {
 /// Position notation: ranks 7 to 1 separated by `/`, upper case for South,
 /// lower case for North, digits for runs of empty squares, then the side to
 /// move (`s`/`n`) and the ply count. The opening position is
-/// `1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0`.
+/// `1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0`. When the rule set uses water
+/// points, a fourth field gives them as `south:north`, e.g. `… n 12 3:1`.
 class GameState {
-  GameState._(this.rules, this._cells, this.toMove, this.ply, this.outcome);
+  GameState._(
+    this.rules,
+    this._cells,
+    this.toMove,
+    this.ply,
+    this.outcome, [
+    this._southWater = 0,
+    this._northWater = 0,
+  ]);
 
   /// The opening position for [rules].
   factory GameState.initial([RuleSet rules = RuleSet.standard]) =>
-      GameState.fromNotation('${rules.setup} s 0', rules: rules);
+      GameState.fromNotation(
+        '${rules.setup} s 0 0:${rules.northStartWater}',
+        rules: rules,
+      );
 
-  /// Parses position notation. Side to move and ply count are optional
-  /// (defaults `s` and `0`). Each side must have exactly one Amir.
+  /// Parses position notation. Side to move, ply count and water points are
+  /// optional (defaults `s`, `0` and `0:0`). Each side must have exactly one
+  /// Amir.
   factory GameState.fromNotation(
     String text, {
     RuleSet rules = RuleSet.standard,
   }) {
     final parts = text.trim().split(RegExp(r'\s+'));
-    if (parts.isEmpty || parts.length > 3) {
+    if (parts.isEmpty || parts.length > 4) {
       throw FormatException('Bad position "$text"');
     }
     final ranks = parts[0].split('/');
@@ -69,7 +82,20 @@ class GameState {
     }
     final toMove = parts.length > 1 ? Side.fromCode(parts[1]) : Side.south;
     final ply = parts.length > 2 ? int.parse(parts[2]) : 0;
-    return GameState._(rules, List.unmodifiable(cells), toMove, ply, null);
+    var water = const [0, 0];
+    if (parts.length > 3) {
+      water = parts[3].split(':').map(int.parse).toList();
+      if (water.length != 2) throw FormatException('Bad water "${parts[3]}"');
+    }
+    return GameState._(
+      rules,
+      List.unmodifiable(cells),
+      toMove,
+      ply,
+      null,
+      water[0],
+      water[1],
+    );
   }
 
   final RuleSet rules;
@@ -83,6 +109,12 @@ class GameState {
 
   /// Null while the game is in progress.
   final Outcome? outcome;
+
+  final int _southWater;
+  final int _northWater;
+
+  /// Water points of [side] (always 0 unless `RuleSet.waterToWin` is set).
+  int water(Side side) => side == Side.south ? _southWater : _northWater;
 
   bool get isOver => outcome != null;
 
@@ -109,6 +141,13 @@ class GameState {
   /// Number of Wells occupied by [side].
   int wellsHeld(Side side) =>
       rules.wells.where((w) => _cells[w.index]?.side == side).length;
+
+  /// Wells that earn water points for [side] this turn.
+  int _wellsScoring(Side side) => rules.wells
+      .where((w) =>
+          _cells[w.index]?.side == side &&
+          (!rules.waterNeedsSupply || isSupplied(w)))
+      .length;
 
   late final List<bool> _southSupply = _computeSupply(Side.south);
   late final List<bool> _northSupply = _computeSupply(Side.north);
@@ -147,8 +186,10 @@ class GameState {
       seed(qala);
       _neighbours[qala].forEach(seed);
     }
-    for (final well in rules.wells) {
-      seed(well.index);
+    if (rules.wellsAreSources) {
+      for (final well in rules.wells) {
+        seed(well.index);
+      }
     }
     if (rules.amirIsSource) {
       final amir = _cells.indexOf(Piece(PieceType.amir, side));
@@ -260,11 +301,22 @@ class GameState {
         cells[move.to.index] = null;
     }
     final unmodifiable = List<Piece?>.unmodifiable(cells);
-    final next =
-        GameState._(rules, unmodifiable, mover.opponent, ply + 1, null);
+    var southWater = _southWater;
+    var northWater = _northWater;
+    GameState build(Outcome? outcome) => GameState._(rules, unmodifiable,
+        mover.opponent, ply + 1, outcome, southWater, northWater);
+    if (rules.waterToWin != null) {
+      // The side about to move draws water from the Wells it still holds.
+      final gained = build(null)._wellsScoring(mover.opponent);
+      if (mover == Side.south) {
+        northWater += gained;
+      } else {
+        southWater += gained;
+      }
+    }
+    final next = build(null);
     final outcome = next._judge(mover, removed);
-    if (outcome == null) return next;
-    return GameState._(rules, unmodifiable, mover.opponent, ply + 1, outcome);
+    return outcome == null ? next : build(outcome);
   }
 
   /// Decides whether the move just made by [mover] ended the game.
@@ -276,12 +328,21 @@ class GameState {
     if (at(enemyQala)?.side == mover && isSupplied(enemyQala)) {
       return Outcome(mover, EndReason.qalaTaken);
     }
+    final waterToWin = rules.waterToWin;
+    if (waterToWin != null && water(toMove) >= waterToWin) {
+      return Outcome(toMove, EndReason.waterVictory);
+    }
     if (ply >= rules.plyLimit) return _plyLimitOutcome();
     if (legalMoves.isEmpty) return Outcome(mover, EndReason.noLegalMoves);
     return null;
   }
 
   Outcome _plyLimitOutcome() {
+    final waterLead = water(Side.south) - water(Side.north);
+    if (waterLead != 0) {
+      return Outcome(
+          waterLead > 0 ? Side.south : Side.north, EndReason.plyLimitWater);
+    }
     final wells = wellsHeld(Side.south) - wellsHeld(Side.north);
     if (wells != 0) {
       return Outcome(
@@ -316,7 +377,8 @@ class GameState {
       if (empty > 0) buffer.write(empty);
       ranks.add(buffer.toString());
     }
-    return '${ranks.join('/')} ${toMove.code} $ply';
+    final water = rules.waterToWin == null ? '' : ' $_southWater:$_northWater';
+    return '${ranks.join('/')} ${toMove.code} $ply$water';
   }
 
   /// Text diagram. Empty Qal'a squares show `Q`, empty Wells `W`, and

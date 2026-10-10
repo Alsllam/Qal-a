@@ -22,9 +22,17 @@ void main() {
 
   test('matches the supply example in docs/rules.md §6', () {
     final state = position(
-      {'g5': 'J', 'e4': 'F', 'd3': 'J', 'b2': 'J', 'd1': 'A', 'a7': 'a'},
+      {
+        'g5': 'J',
+        'e4': 'F',
+        'e3': 'J',
+        'd2': 'J',
+        'b3': 'J',
+        'd1': 'A',
+        'a7': 'a'
+      },
     );
-    expect(supplied(state, Side.south), {'e4', 'd3', 'd1'});
+    expect(supplied(state, Side.south), {'e4', 'e3', 'd2', 'd1'});
   });
 
   test('diagonal contact counts as touching', () {
@@ -49,7 +57,7 @@ void main() {
     expect(supplied(state, Side.south), isEmpty);
   });
 
-  test('a piece on a Well is a source, and so is its chain', () {
+  test('in v0.1 a piece on a Well is a source, and so is its chain', () {
     final state = position(
       {'a1': 'A', 'c4': 'J', 'b5': 'F', 'a6': 'J', 'g7': 'a'},
       rules: noAmirSource,
@@ -94,6 +102,7 @@ void main() {
         'g7': 'a'
       },
       toMove: Side.north,
+      rules: RuleSet.v0_1,
     );
     // North Jundi c3 is supplied by the c4 Well.
     final after = state.play(Move.parse('c3xd3'));
@@ -111,6 +120,7 @@ void main() {
         'g7': 'a'
       },
       toMove: Side.north,
+      rules: RuleSet.v0_1,
     );
     expect(state2.isSupplied(Square.parse('d5')), isTrue);
     final cut = state2.play(Move.parse('c3xd3'));
