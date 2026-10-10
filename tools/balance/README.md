@@ -8,7 +8,7 @@ The results and every rule change are logged in [`docs/balance-log.md`](../../do
 
 ```sh
 dart pub get
-dart run bin/balance.dart --rules 0.1 --games 2000 --depth 3 --gradient 200
+dart run bin/balance.dart --rules 0.6 --games 2000 --depth 3 --gradient 200
 dart run bin/balance.dart --rules all          # every version in variants.dart
 dart run bin/balance.dart --help
 ```

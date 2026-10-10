@@ -105,8 +105,8 @@ void main() {
       expect(moves(state, 'd4'), {'d4-c5', 'd4-e3'});
     });
 
-    test('shoots enemies exactly two squares away in all eight directions', () {
-      final state = position({
+    test('in v0.1 shoots enemies two squares away in all eight directions', () {
+      final state = position(rules: RuleSet.v0_1, {
         'd4': 'R', 'e4': 'A', // the Amir supplies the Rami
         'd6': 'j', 'f6': 'j', 'b6': 'j', 'b4': 'j', 'b2': 'j', 'd2': 'j',
         'f2': 'j',
@@ -131,13 +131,12 @@ void main() {
       expect(state.legalMoves.where((m) => m.kind == MoveKind.shot), isEmpty);
     });
 
-    test('shoots orthogonally only when diagonalShots is off', () {
-      final rules = RuleSet.standard.copyWith(diagonalShots: false);
+    test('shoots enemies two squares away orthogonally only', () {
       final state = position({
         'd4': 'R', 'e4': 'A', //
         'd6': 'j', 'f6': 'j', 'b4': 'j', 'b2': 'j', 'd2': 'j',
         'g7': 'a',
-      }, rules: rules);
+      });
       final shots = state.legalMoves
           .where((m) => m.kind == MoveKind.shot)
           .map((m) => m.notation)

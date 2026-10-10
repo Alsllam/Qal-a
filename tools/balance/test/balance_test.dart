@@ -58,8 +58,8 @@ void main() {
     final random = Random(1);
 
     test('takes the Amir when it can', () {
-      // South Faris on the c4 Well can capture the Amir on c6.
-      final state = pos('7/2a4/7/2F4/7/7/6A');
+      // South Faris (supplied by its Amir on b3) can capture the Amir on c6.
+      final state = pos('7/2a4/7/2F4/1A5/7/7');
       expect(
           AlphaBetaPlayer(depth: 2).choose(state, random), Move.parse('c4xc6'));
     });
@@ -79,14 +79,14 @@ void main() {
     });
 
     test('prefers winning material', () {
-      // South Rami (supplied by the e4 Well chain) can shoot the Faris on d6.
-      final state = pos('6a/3f3/7/3RJ2/7/7/A6');
+      // South Rami (supplied by its Amir) can shoot the Faris on d6.
+      final state = pos('6a/3f3/7/3RA2/7/7/7');
       expect(
           AlphaBetaPlayer(depth: 2).choose(state, random), Move.parse('d4*d6'));
     });
 
     test('noise only picks moves close to the best', () {
-      final state = pos('7/2a4/7/2F4/7/7/6A');
+      final state = pos('7/2a4/7/2F4/1A5/7/7');
       final player = AlphaBetaPlayer(depth: 2, noise: 0.5);
       for (var seed = 0; seed < 20; seed++) {
         expect(player.choose(state, Random(seed)), Move.parse('c4xc6'));

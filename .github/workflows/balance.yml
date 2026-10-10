@@ -1,0 +1,25 @@
+name: balance
+
+on:
+  push:
+    paths: ['tools/balance/**', 'packages/game_core/**', '.github/workflows/balance.yml']
+  pull_request:
+    paths: ['tools/balance/**', 'packages/game_core/**', '.github/workflows/balance.yml']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/balance
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: 3.5.4
+      - run: dart pub get
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: dart analyze --fatal-infos
+      - run: dart test
+      - name: Smoke-run the lab
+        run: dart run bin/balance.dart --rules 0.6 --games 40 --depth 2 --gradient 10 --out build/reports

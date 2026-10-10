@@ -15,8 +15,8 @@ void main() {
     });
 
     test('shooting the Amir wins too', () {
-      final state = position({'b3': 'A', 'c4': 'R', 'e6': 'a'});
-      final after = state.play(Move.parse('c4*e6'));
+      final state = position({'b3': 'A', 'c4': 'R', 'c6': 'a'});
+      final after = state.play(Move.parse('c4*c6'));
       expect(after.outcome, const Outcome(Side.south, EndReason.amirCaptured));
     });
 

@@ -1,6 +1,6 @@
 # Qal'a (قلعة): Wells & Walls, Official Rules
 
-**Rules version 0.3** (chosen by the balance lab; see `docs/balance-log.md` for why each rule is the way it is). Numbers marked ⚙ may still change after playtesting. The reference implementation is `packages/game_core`. If this document and the code ever disagree, that is a bug; please report it.
+**Rules version 0.6** (chosen by the balance lab; see `docs/balance-log.md` for why each rule is the way it is). Numbers marked ⚙ may still change after playtesting. The reference implementation is `packages/game_core`. If this document and the code ever disagree, that is a bug; please report it.
 
 ---
 
@@ -21,7 +21,7 @@ Two desert fortresses face each other across the sand. Between them lie two well
 | **Amir** (أمير), leader | A | 1 | 1 step in any direction. Lose it and you lose |
 | **Jundi** (جندي), soldier | J | 4 | 1 step forward, back or sideways |
 | **Faris** (فارس), horseman | F | 2 | Slides up to 3 squares ⚙ forward, back or sideways |
-| **Rami** (رامي), archer | R | 1 | Steps 1 square diagonally. Shoots enemies 2 squares ⚙ away |
+| **Rami** (رامي), archer | R | 1 | Steps 1 square diagonally. Shoots enemies 2 squares ⚙ away in a straight line |
 
 ## 3. Setup
 
@@ -97,14 +97,16 @@ It stops when it reaches a piece. It may capture the **first** enemy piece in it
 
 ### Rami (R): steps 1 square diagonally, and only to an empty square
 
-The Rami **never captures by moving**. Instead it **shoots**: it removes an enemy piece exactly **2 squares away** in any of the 8 directions, provided the square in between is **empty**. The Rami stays where it is. A shot uses your whole turn.
+The Rami **never captures by moving**. Instead it **shoots**: it removes an enemy piece exactly **2 squares away in a straight line** (forward, back or sideways; **not diagonally**), provided the square in between is **empty**. The Rami stays where it is. A shot uses your whole turn.
+
+It moves diagonally but shoots straight, so it is never covering the same squares it can step to.
 
 ```
-  ✕ . ✕ . ✕        ✕ = squares the Rami can shoot (exactly 2 away)
-  . ● . ● .        ● = squares it can step to
+  . . ✕ . .        ✕ = squares the Rami can shoot (exactly 2 away, straight)
+  . ● . ● .        ● = squares it can step to (diagonal)
   ✕ . R . ✕
   . ● . ● .
-  ✕ . ✕ . ✕
+  . . ✕ . .
 ```
 
 ```
@@ -161,7 +163,11 @@ Qal'a: they can still move, but they cannot capture until they reconnect.
 
 ## 7. Wells and water points
 
-At the **start of each of your turns**, you gain **1 water point for each Well held by a supplied piece of yours**. A Well held by an unsupplied piece earns nothing. Water points are never lost.
+At the **start of each of your turns**, you gain **1 water point for each Well held by a supplied piece of yours**. Water points are never lost.
+
+Two exceptions:
+- A Well held by an **unsupplied** piece earns nothing.
+- A Well held by your **Amir** earns nothing. The leader commands; soldiers carry the water.
 
 ```
 Start of South's turn:
@@ -194,7 +200,7 @@ If nobody has won after **60 plies** (30 moves each), the game ends and is decid
 3. If Wells are tied, the player with **more pieces** on the board wins.
 4. If pieces are also tied, the game is a **draw**.
 
-In the balance lab about 85% of games end before the limit, and fewer than 1% are draws.
+In the balance lab about 3 games in 4 end before the limit, and fewer than 1% are draws.
 
 ## 9. Quick-reference card
 
@@ -203,12 +209,13 @@ In the balance lab about 85% of games end before the limit, and fewer than 1% ar
 │ Turn:  move ONE piece. South first. No passing.                       │
 │ A Amir   1 step any way          J Jundi  1 step + (no diagonal)      │
 │ F Faris  slide 1–3, + only       R Rami   step 1 diagonal;            │
-│                                           SHOOT 2 away, gap empty     │
+│                                           SHOOT 2 away straight (+),  │
+│                                           gap empty                   │
 │ SUPPLY:  only supplied pieces capture/shoot.                          │
 │          Sources = your Qal'a (on/next to it) and your Amir.          │
 │          Touching friends pass water on.                              │
 │ WELLS:   start of your turn: +1 water per Well held by a supplied     │
-│          piece.                                                       │
+│          piece (not the Amir).                                        │
 │ WIN:     capture the Amir  •  supplied piece on enemy Qal'a           │
 │          •  10 water  •  opponent has no move                         │
 │ PLY 60:  more water → more Wells → more pieces → draw                 │
@@ -238,12 +245,14 @@ In the balance lab about 85% of games end before the limit, and fewer than 1% ar
 - **Can an enemy piece stand on my Qal'a without winning?** Yes, if it is unsupplied. While it is there, your Qal'a gives you no water. Capture it!
 - **Does the Rami need water to step?** No. Only captures and shots need water.
 - **Can the Faris capture an enemy hidden behind another piece?** No. It stops at the first piece it reaches.
-- **Does standing on a Well make my piece supplied?** No (since v0.3). It must be linked to your Qal'a or Amir. If it isn't, the Well earns you no water points either.
+- **Does standing on a Well make my piece supplied?** No (since v0.6). It must be linked to your Qal'a or Amir. If it isn't, the Well earns you no water points either.
 - **Do I lose water points when I lose a Well?** No. Points are never lost; you just stop earning them.
+- **Can my Amir hold a Well?** It can stand there (and block the enemy from it), but it earns no water.
+- **Can the Rami shoot diagonally?** No (since v0.6). It steps diagonally and shoots straight.
 - **Does a move that leaves my Amir attacked count as illegal (like "check")?** No. There is no check. If you leave your Amir where it can be captured, the opponent may simply take it.
 - **Can I capture my own pieces?** No.
 - **Is there any luck?** None. Both players see everything.
-- **First-player advantage?** In the balance lab, South (first) and North score within a few points of 50%. If playtesting shows otherwise, the **pie rule** is ready for ranked play: after South's first move, North may choose to swap sides.
+- **First-player advantage?** In the balance lab South (first) scores between 45% and 54%, depending on how the openings are chosen. The best openings (a Jundi toward a Well) need more study in playtests. If South turns out to be favoured, the **pie rule** is ready for ranked play: after South's first move, North may choose to swap sides.
 
 ## 12. Teaching script (≈5 minutes)
 
@@ -257,6 +266,6 @@ In the balance lab about 85% of games end before the limit, and fewer than 1% ar
 
 | Version | Date | Change |
 |---|---|---|
-| 0.3 | 2026-10-10 | From the balance lab: Wells are no longer supply sources; water points (+1 per supplied Well at the start of your turn, 10 wins); ply limit decided by water first. Fixes North's last-move advantage and the 87% of games that ran to the limit in v0.1 |
-| 0.2 | — | Explored only (water points with Wells still sources); never adopted |
+| 0.6 | 2026-10-10 | Adopted after the balance lab (details in `docs/balance-log.md`): water points (+1 per Well held by a supplied piece at the start of your turn, 10 wins); Wells are no longer supply sources; an Amir on a Well earns no water; the Rami shoots straight only; the ply limit is decided by water first |
+| 0.2–0.5, 0.7 | 2026-10-10 | Tried in the balance lab, not adopted; see `docs/balance-log.md` |
 | 0.1 | 2026-10-08 | First complete ruleset, from Concept 1 in `docs/concepts.md`. Changes from the concept draft: 8 pieces with 1 Rami; Qal'a supply is "on or next to"; the ply limit is 60 with a Wells → pieces → draw tiebreak; a player with no legal move loses |

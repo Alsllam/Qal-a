@@ -25,13 +25,15 @@ class RuleSet {
     this.diagonalShots = true,
   });
 
-  /// The current rules, as written in docs/rules.md (version 0.3, chosen by
+  /// The current rules, as written in docs/rules.md (version 0.6, chosen by
   /// the balance lab; see docs/balance-log.md).
   static const RuleSet standard = RuleSet(
-    version: '0.3',
+    version: '0.6',
     waterToWin: 10,
     wellsAreSources: false,
     waterNeedsSupply: true,
+    amirEarnsWater: false,
+    diagonalShots: false,
   );
 
   /// The first ruleset, kept for reference and tests.

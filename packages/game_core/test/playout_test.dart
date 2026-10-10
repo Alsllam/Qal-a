@@ -18,8 +18,19 @@ void main() {
   test('perft from the opening position', () {
     final state = GameState.initial();
     expect(perft(state, 1), 14);
-    expect(perft(state, 2), _perft2);
-    expect(perft(state, 3), _perft3);
+    // 14 × 14: in the opening no move changes the other side's options.
+    expect(perft(state, 2), 196);
+    expect(perft(state, 3), 3302);
+    expect(perft(state, 4), 55418);
+  });
+
+  test('perft under the v0.1 rules', () {
+    final state = GameState.initial(RuleSet.v0_1);
+    expect(perft(state, 1), 14);
+    // 196 plus North's Rami gaining a diagonal shot at b4 after b1-b4 and at
+    // f4 after f1-f4.
+    expect(perft(state, 2), 198);
+    expect(perft(state, 3), 3350);
     expect(perft(state, 4), 56618);
   });
 
@@ -65,8 +76,3 @@ void main() {
     expect(reasons.values.fold(0, (a, b) => a + b), 300);
   });
 }
-
-// 14 × 14 = 196, plus North's Rami gaining a shot at b4 after b1-b4 and at
-// f4 after f1-f4.
-const _perft2 = 198;
-const _perft3 = 3350;
