@@ -11,3 +11,4 @@ export 'src/piece.dart';
 export 'src/rule_set.dart';
 export 'src/side.dart';
 export 'src/square.dart';
+export 'src/test_vectors.dart';

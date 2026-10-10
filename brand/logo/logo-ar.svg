@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 64" role="img" aria-label="قلعة">
+  <g transform="translate(106 0)">
+    <path fill="#3D4BA6" d="M12 58V14h8v6h8v-6h8v6h8v-6h8v44z"/>
+    <path fill="#2F8FD0" d="M32 30c0 0-10 11.5-10 18a10 10 0 0 0 20 0c0-6.5-10-18-10-18z"/>
+  </g>
+  <text x="112" y="46" direction="rtl" text-anchor="start" font-family="'IBM Plex Sans Arabic', system-ui, sans-serif" font-size="38" font-weight="700" fill="#151B40">قلعة</text>
+</svg>
