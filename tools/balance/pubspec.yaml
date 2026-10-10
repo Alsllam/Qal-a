@@ -1,0 +1,16 @@
+name: balance
+description: Balance lab for Qal'a. AI self-play and statistical reports.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  args: ^2.5.0
+  game_core:
+    path: ../../packages/game_core
+
+dev_dependencies:
+  lints: ^4.0.0
+  test: ^1.25.0
