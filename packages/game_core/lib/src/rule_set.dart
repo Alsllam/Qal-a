@@ -21,6 +21,8 @@ class RuleSet {
     this.wellsAreSources = true,
     this.waterNeedsSupply = false,
     this.northStartWater = 0,
+    this.amirEarnsWater = true,
+    this.diagonalShots = true,
   });
 
   /// The current rules, as written in docs/rules.md (version 0.3, chosen by
@@ -73,6 +75,12 @@ class RuleSet {
   /// Water points North starts with (compensation for moving second).
   final int northStartWater;
 
+  /// Whether an Amir standing on a Well earns water points.
+  final bool amirEarnsWater;
+
+  /// Whether the Rami may shoot diagonally (otherwise orthogonally only).
+  final bool diagonalShots;
+
   Square qalaOf(Side side) => side == Side.south ? southQala : northQala;
 
   RuleSet copyWith({
@@ -89,6 +97,8 @@ class RuleSet {
     bool? wellsAreSources,
     bool? waterNeedsSupply,
     int? northStartWater,
+    bool? amirEarnsWater,
+    bool? diagonalShots,
   }) =>
       RuleSet(
         version: version ?? this.version,
@@ -104,5 +114,7 @@ class RuleSet {
         wellsAreSources: wellsAreSources ?? this.wellsAreSources,
         waterNeedsSupply: waterNeedsSupply ?? this.waterNeedsSupply,
         northStartWater: northStartWater ?? this.northStartWater,
+        amirEarnsWater: amirEarnsWater ?? this.amirEarnsWater,
+        diagonalShots: diagonalShots ?? this.diagonalShots,
       );
 }

@@ -131,6 +131,20 @@ void main() {
       expect(state.legalMoves.where((m) => m.kind == MoveKind.shot), isEmpty);
     });
 
+    test('shoots orthogonally only when diagonalShots is off', () {
+      final rules = RuleSet.standard.copyWith(diagonalShots: false);
+      final state = position({
+        'd4': 'R', 'e4': 'A', //
+        'd6': 'j', 'f6': 'j', 'b4': 'j', 'b2': 'j', 'd2': 'j',
+        'g7': 'a',
+      }, rules: rules);
+      final shots = state.legalMoves
+          .where((m) => m.kind == MoveKind.shot)
+          .map((m) => m.notation)
+          .toSet();
+      expect(shots, {'d4*d6', 'd4*b4', 'd4*d2'});
+    });
+
     test('cannot shoot when unsupplied', () {
       final state = position({'g4': 'R', 'g6': 'j', 'a1': 'A', 'a7': 'a'});
       expect(moves(state, 'g4'), {'g4-f5', 'g4-f3'});

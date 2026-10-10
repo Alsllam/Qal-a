@@ -146,6 +146,7 @@ class GameState {
   int _wellsScoring(Side side) => rules.wells
       .where((w) =>
           _cells[w.index]?.side == side &&
+          (rules.amirEarnsWater || _cells[w.index]!.type != PieceType.amir) &&
           (!rules.waterNeedsSupply || isSupplied(w)))
       .length;
 
@@ -261,7 +262,9 @@ class GameState {
 
   void _addShots(Square from, List<Move> moves) {
     final distance = rules.shotDistance;
-    for (final (df, dr) in allDirections) {
+    final directions =
+        rules.diagonalShots ? allDirections : orthogonalDirections;
+    for (final (df, dr) in directions) {
       final target = from.offset(df * distance, dr * distance);
       if (target == null || _cells[target.index]?.side != toMove.opponent) {
         continue;

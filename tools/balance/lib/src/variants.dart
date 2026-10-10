@@ -56,4 +56,50 @@ final Map<String, RuleVariant> ruleVariants = {
     'As 0.3, and the Amir is no longer a water source: all water comes '
     'from your Qal\'a',
   ),
+  '0.5': const RuleVariant(
+    RuleSet(
+      version: '0.5',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+      amirEarnsWater: false,
+    ),
+    'As 0.3, and an Amir standing on a Well earns no water (stops the '
+    'Rami-guarded Amir camping on a Well)',
+  ),
+  '0.5b': const RuleVariant(
+    RuleSet(
+      version: '0.5b',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+      amirEarnsWater: false,
+      northStartWater: 1,
+    ),
+    'As 0.5, and North starts with 1 water point',
+  ),
+  '0.6': const RuleVariant(
+    RuleSet(
+      version: '0.6',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+      amirEarnsWater: false,
+      diagonalShots: false,
+    ),
+    'As 0.5, and the Rami shoots orthogonally only (4 directions, not 8)',
+  ),
+  '0.7': const RuleVariant(
+    RuleSet(
+      version: '0.7',
+      waterToWin: 10,
+      wellsAreSources: false,
+      waterNeedsSupply: true,
+      amirEarnsWater: false,
+      diagonalShots: false,
+      northStartWater: 1,
+    ),
+    'As 0.6, and North starts with 1 water point (offsets the first-move '
+    'tempo toward the Wells)',
+  ),
 };

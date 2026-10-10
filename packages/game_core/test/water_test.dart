@@ -110,4 +110,13 @@ void main() {
     final after = state.play(Move.parse('d7-d6'));
     expect(after.water(Side.south), 1);
   });
+
+  test('an Amir on a Well earns nothing when amirEarnsWater is off', () {
+    const text = '3a3/7/7/2A4/7/7/7 n 0 0:0';
+    final on = GameState.fromNotation(text, rules: rules);
+    expect(on.play(Move.parse('d7-d6')).water(Side.south), 1);
+    final off = GameState.fromNotation(text,
+        rules: rules.copyWith(amirEarnsWater: false));
+    expect(off.play(Move.parse('d7-d6')).water(Side.south), 0);
+  });
 }
