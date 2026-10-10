@@ -1,0 +1,8 @@
+{
+  "FLAVOR": "dev",
+  "API_BASE_URL": "http://10.0.2.2:5000",
+  "AUTH_ISSUER": "http://10.0.2.2:5000",
+  "AUTH_CLIENT_ID": "qala-mobile",
+  "FEATURE_ONLINE": "false",
+  "FEATURE_COACH": "false"
+}

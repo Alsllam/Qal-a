@@ -1,0 +1,140 @@
+{
+  "@@locale": "en",
+  "appTitle": "Qal'a",
+  "appTagline": "Fortresses, wells and water",
+  "homeLearnTitle": "Learn",
+  "homeLearnSubtitle": "Short lessons, one idea each",
+  "homeLadderTitle": "AI ladder",
+  "homeLadderSubtitle": "Beat eight opponents, one by one",
+  "homePassPlayTitle": "Two players",
+  "homePassPlaySubtitle": "Play a friend on one device",
+  "homeOnlineTitle": "Online",
+  "homeOnlineSubtitle": "Coming soon",
+  "settingsTitle": "Settings",
+  "settingsLanguage": "Language",
+  "settingsTheme": "Theme",
+  "settingsThemeSystem": "System",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsCoachTips": "Coach tips during games",
+  "sideSouth": "South",
+  "sideNorth": "North",
+  "turnOf": "{side} to move",
+  "@turnOf": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "yourTurn": "Your turn",
+  "aiThinking": "{name} is thinking…",
+  "@aiThinking": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "moveCounter": "Move {ply}/{limit}",
+  "@moveCounter": {
+    "placeholders": {
+      "ply": {
+        "type": "int"
+      },
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "waterLabel": "Water {value}/{target}",
+  "@waterLabel": {
+    "placeholders": {
+      "value": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "undo": "Undo",
+  "restart": "New game",
+  "resign": "Resign",
+  "hintNoWater": "No water: this piece is cut off. It can move, but it cannot capture.",
+  "hintNotAllowed": "That move is not allowed.",
+  "resultWin": "{side} wins!",
+  "@resultWin": {
+    "placeholders": {
+      "side": {
+        "type": "String"
+      }
+    }
+  },
+  "resultYouWin": "You win!",
+  "resultYouLose": "{name} wins this time.",
+  "@resultYouLose": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "resultDraw": "Draw",
+  "reasonAmirCaptured": "The Amir was captured.",
+  "reasonQalaTaken": "A supplied piece took the enemy Qal'a.",
+  "reasonNoLegalMoves": "The opponent had no legal move.",
+  "reasonWaterVictory": "Reached 10 water points.",
+  "reasonPlyLimit": "Move limit reached.",
+  "playAgain": "Play again",
+  "backHome": "Home",
+  "nextOpponent": "Next opponent",
+  "ladderLocked": "Beat the previous opponent to unlock",
+  "ladderBeaten": "Beaten",
+  "ladderLevel": "Level {level}",
+  "@ladderLevel": {
+    "placeholders": {
+      "level": {
+        "type": "int"
+      }
+    }
+  },
+  "ladderPlayAsSouth": "Play (you move first)",
+  "learnChapter": "Chapter {number}",
+  "@learnChapter": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "learnStars": "{count, plural, =0{No stars yet} =1{1 star} other{{count} stars}}",
+  "@learnStars": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "lessonNext": "Next",
+  "lessonTryAgain": "Not quite. Try again.",
+  "lessonShowAnswer": "Show me",
+  "lessonComplete": "Lesson complete!",
+  "lessonStep": "Step {current} of {total}",
+  "@lessonStep": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "errorGeneric": "Something went wrong. Please try again.",
+  "retry": "Retry",
+  "pieceAmir": "Amir",
+  "pieceJundi": "Jundi",
+  "pieceFaris": "Faris",
+  "pieceRami": "Rami"
+}

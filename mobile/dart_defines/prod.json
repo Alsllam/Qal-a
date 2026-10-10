@@ -1,0 +1,8 @@
+{
+  "FLAVOR": "prod",
+  "API_BASE_URL": "https://api.qala.example",
+  "AUTH_ISSUER": "https://api.qala.example",
+  "AUTH_CLIENT_ID": "qala-mobile",
+  "FEATURE_ONLINE": "false",
+  "FEATURE_COACH": "false"
+}

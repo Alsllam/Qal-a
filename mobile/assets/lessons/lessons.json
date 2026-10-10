@@ -1,0 +1,295 @@
+{
+ "chapters": [
+  {
+   "number": 1,
+   "title": {
+    "en": "The Fortress",
+    "ar": "القلعة"
+   },
+   "lessons": [
+    {
+     "id": "c1-amir",
+     "title": {
+      "en": "The Amir",
+      "ar": "الأمير"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "This is your Amir (A) standing on your Qal'a. If he is captured, you lose. Capture the enemy Amir to win.",
+        "ar": "هذا أميرك (أ) يقف على قلعتك. إذا أُسر خسرت، وإذا أسرت أمير خصمك فزت."
+       },
+       "position": "1fjajf1/2jrj2/7/7/7/2JRJ2/1FJAJF1 s 0 0:0",
+       "expected": []
+      },
+      {
+       "text": {
+        "en": "The Amir steps one square in any direction. Move him forward.",
+        "ar": "يتحرك الأمير خطوة واحدة في أي اتجاه. حرّكه إلى الأمام."
+       },
+       "position": "6a/7/7/7/3A3/7/7 s 0 0:0",
+       "expected": [
+        "d3-d4",
+        "d3-c4",
+        "d3-e4"
+       ],
+       "success": {
+        "en": "Good. One step, any direction.",
+        "ar": "أحسنت. خطوة واحدة في أي اتجاه."
+       }
+      },
+      {
+       "text": {
+        "en": "Capture by moving onto an enemy piece. Take the Jundi in front of your Amir.",
+        "ar": "يكون الأسر بالانتقال إلى مربع قطعة الخصم. خذ الجندي الذي أمام أميرك."
+       },
+       "position": "3a3/7/7/3j3/3A3/7/7 s 0 0:0",
+       "expected": [
+        "d3xd4"
+       ],
+       "success": {
+        "en": "Captured!",
+        "ar": "تم الأسر!"
+       }
+      }
+     ]
+    },
+    {
+     "id": "c1-jundi",
+     "title": {
+      "en": "The Jundi",
+      "ar": "الجندي"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "The Jundi steps one square forward, back or sideways, never diagonally. Move it forward.",
+        "ar": "يتحرك الجندي خطوة واحدة للأمام أو الخلف أو الجانب، ولا يتحرك قطريًا. حرّكه إلى الأمام."
+       },
+       "position": "6a/7/7/7/2J4/7/3A3 s 0 0:0",
+       "expected": [
+        "c3-c4"
+       ],
+       "success": {
+        "en": "Right. Straight lines only.",
+        "ar": "صحيح. في خطوط مستقيمة فقط."
+       }
+      },
+      {
+       "text": {
+        "en": "Your Jundi touches your Qal'a, so it has water and can capture. Take the enemy Jundi.",
+        "ar": "جنديك يلامس قلعتك، فهو متصل بالماء ويستطيع الأسر. خذ جندي الخصم."
+       },
+       "position": "6a/7/7/7/2j4/2J4/3A3 s 0 0:0",
+       "expected": [
+        "c2xc3"
+       ],
+       "success": {
+        "en": "Well done.",
+        "ar": "أحسنت."
+       }
+      }
+     ]
+    },
+    {
+     "id": "c1-faris",
+     "title": {
+      "en": "The Faris",
+      "ar": "الفارس"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "The Faris slides 1 to 3 squares in a straight line. Ride to b4.",
+        "ar": "ينزلق الفارس من مربع إلى ثلاثة مربعات في خط مستقيم. انطلق إلى b4."
+       },
+       "position": "6a/7/7/7/7/7/1F1A3 s 0 0:0",
+       "expected": [
+        "b1-b4"
+       ],
+       "success": {
+        "en": "Three squares in one move.",
+        "ar": "ثلاثة مربعات في نقلة واحدة."
+       }
+      },
+      {
+       "text": {
+        "en": "The Faris captures the first enemy in its path. Charge the Jundi on b4.",
+        "ar": "يأسر الفارس أول قطعة للخصم في طريقه. اهجم على الجندي في b4."
+       },
+       "position": "6a/7/7/1j5/7/7/1FA4 s 0 0:0",
+       "expected": [
+        "b1xb4"
+       ],
+       "success": {
+        "en": "Charge!",
+        "ar": "هجوم!"
+       }
+      }
+     ]
+    },
+    {
+     "id": "c1-rami",
+     "title": {
+      "en": "The Rami",
+      "ar": "الرامي"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "The Rami steps one square diagonally.",
+        "ar": "يخطو الرامي مربعًا واحدًا قطريًا."
+       },
+       "position": "6a/7/7/7/7/3R3/3A3 s 0 0:0",
+       "expected": [
+        "d2-c3",
+        "d2-e3"
+       ],
+       "success": {
+        "en": "Diagonal steps.",
+        "ar": "خطوات قطرية."
+       }
+      },
+      {
+       "text": {
+        "en": "The Rami shoots an enemy exactly two squares away in a straight line, if the square between is empty. It stays where it is. Shoot!",
+        "ar": "يرمي الرامي قطعة للخصم على بُعد مربعين بالضبط في خط مستقيم إذا كان المربع بينهما فارغًا، ويبقى في مكانه. ارمِ!"
+       },
+       "position": "6a/7/7/3j3/7/3R3/3A3 s 0 0:0",
+       "expected": [
+        "d2*d4"
+       ],
+       "success": {
+        "en": "Hit!",
+        "ar": "إصابة!"
+       }
+      },
+      {
+       "text": {
+        "en": "The enemy Amir stands two squares in front of your Rami. Win the game!",
+        "ar": "أمير الخصم على بُعد مربعين أمام راميك. افز باللعبة!"
+       },
+       "position": "7/7/7/3a3/7/3R3/3A3 s 0 0:0",
+       "expected": [
+        "d2*d4"
+       ],
+       "success": {
+        "en": "You captured the Amir: victory!",
+        "ar": "أسرت الأمير: انتصار!"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 2,
+   "title": {
+    "en": "Water",
+    "ar": "الماء"
+   },
+   "lessons": [
+    {
+     "id": "c2-supply",
+     "title": {
+      "en": "Supply",
+      "ar": "الإمداد"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "Glowing pieces have water: they touch your Qal'a or your Amir, directly or through a chain of your pieces. Faded pieces are cut off: they can move, but cannot capture. Your Faris on b4 is cut off.",
+        "ar": "القطع المتوهجة متصلة بالماء: تلامس قلعتك أو أميرك مباشرة أو عبر سلسلة من قطعك. القطع الباهتة مقطوعة: تتحرك لكنها لا تأسر. فارسك في b4 مقطوع."
+       },
+       "position": "6a/7/7/1F5/7/2J4/3A3 s 0 0:0",
+       "expected": []
+      },
+      {
+       "text": {
+        "en": "Link the Faris back: move the Jundi so it touches both the Faris and your Amir.",
+        "ar": "أعد وصل الفارس: حرّك الجندي ليلامس الفارس وأميرك معًا."
+       },
+       "position": "6a/7/7/1F5/3J3/2A4/7 s 0 0:0",
+       "expected": [
+        "d3-c3"
+       ],
+       "success": {
+        "en": "The chain is closed: the Faris glows again.",
+        "ar": "اكتملت السلسلة: عاد الفارس يتوهج."
+       }
+      },
+      {
+       "text": {
+        "en": "Now the Faris has water. Capture the Jundi on b6.",
+        "ar": "الآن الفارس متصل بالماء. خذ الجندي في b6."
+       },
+       "position": "6a/1j5/7/1F5/2J4/2A4/7 s 0 0:0",
+       "expected": [
+        "b4xb6"
+       ],
+       "success": {
+        "en": "Water first, then attack.",
+        "ar": "الماء أولًا، ثم الهجوم."
+       }
+      }
+     ]
+    },
+    {
+     "id": "c2-cut",
+     "title": {
+      "en": "Cut the line",
+      "ar": "اقطع الخط"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "The enemy Faris on c4 gets its water through the Jundi on d5. Capture that Jundi to cut the line.",
+        "ar": "فارس الخصم في c4 يأخذ ماءه عبر الجندي في d5. خذ هذا الجندي لتقطع الخط."
+       },
+       "position": "3a3/3j3/3jJ2/2f1A2/7/7/7 s 0 0:0",
+       "expected": [
+        "e5xd5"
+       ],
+       "success": {
+        "en": "The enemy Faris is cut off: it can no longer capture.",
+        "ar": "فارس الخصم مقطوع الآن: لا يستطيع الأسر."
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "number": 3,
+   "title": {
+    "en": "Wells",
+    "ar": "الآبار"
+   },
+   "lessons": [
+    {
+     "id": "c3-hold",
+     "title": {
+      "en": "Hold a Well",
+      "ar": "احتلّ بئرًا"
+     },
+     "steps": [
+      {
+       "text": {
+        "en": "At the start of each of your turns, every Well held by a supplied piece gives you 1 water point. Ten points win. Move the Jundi onto the Well at c4: it stays linked to your Amir.",
+        "ar": "في بداية كل دور، كل بئر تحتله قطعة متصلة بالإمداد يمنحك نقطة ماء، وعشر نقاط تعني الفوز. حرّك الجندي إلى البئر في c4، وسيبقى متصلًا بأميرك."
+       },
+       "position": "6a/7/7/7/2JA3/7/7 s 0 0:0",
+       "expected": [
+        "c3-c4"
+       ],
+       "success": {
+        "en": "If you still hold it at the start of your next turn, you gain +1 water.",
+        "ar": "إن بقيت تحتله في بداية دورك التالي ستكسب نقطة ماء."
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

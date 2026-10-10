@@ -1,0 +1,4 @@
+tags:
+  # Golden screenshots depend on the host's font rasterizer. CI runs them
+  # separately; regenerate with: flutter test --tags golden --update-goldens
+  golden: {}

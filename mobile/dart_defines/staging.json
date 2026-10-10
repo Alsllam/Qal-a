@@ -1,0 +1,8 @@
+{
+  "FLAVOR": "staging",
+  "API_BASE_URL": "https://staging-api.qala.example",
+  "AUTH_ISSUER": "https://staging-api.qala.example",
+  "AUTH_CLIENT_ID": "qala-mobile",
+  "FEATURE_ONLINE": "false",
+  "FEATURE_COACH": "false"
+}
