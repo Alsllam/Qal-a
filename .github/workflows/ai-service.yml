@@ -1,0 +1,39 @@
+name: ai-service
+
+on:
+  push:
+    paths: ['ai-service/**', 'docs/rules.md', 'docs/lessons/**', '.github/workflows/ai-service.yml']
+  pull_request:
+    paths: ['ai-service/**', 'docs/rules.md', 'docs/lessons/**', '.github/workflows/ai-service.yml']
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-service
+    env:
+      # Deterministic token counts for chunking in CI (tiktoken would download its BPE file).
+      TOKENIZER_MODE: estimate
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.x"
+          enable-cache: true
+          cache-dependency-glob: ai-service/uv.lock
+      - run: uv sync --frozen --python 3.12
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy --strict src scripts evals tests
+      - run: uv run pytest -q
+      - name: Offline retrieval eval (BM25, no Azure)
+        run: uv run python evals/run_eval.py --retriever memory --json eval-report.json
+      - name: Ingestion dry run
+        run: uv run python scripts/ingest_repo_docs.py --dry-run
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ai-service-eval
+          path: ai-service/eval-report.json
+          if-no-files-found: ignore

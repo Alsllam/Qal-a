@@ -1,0 +1,22 @@
+# Minimum scores. CI fails when a change drops a metric below its threshold.
+# Bump `dataset_version` when questions change, so results stay comparable over time.
+dataset_version: 1
+
+retrieval:
+  # Offline keyword baseline (in-memory BM25 + Arabic glossary expansion). Runs in CI without Azure.
+  # Only ~8 chunks exist today (one 270-line rules file), so recall@5 is a weak signal on its own:
+  # recall@1 and MRR are the numbers that move when chunking or retrieval regress.
+  memory:
+    en: { recall_at_1: 0.70, recall_at_5: 0.95, mrr: 0.80 }
+    ar: { recall_at_1: 0.60, recall_at_5: 0.90, mrr: 0.70 }
+  # Azure AI Search hybrid + semantic ranker (run with real resources before a release).
+  azure:
+    en: { recall_at_1: 0.75, recall_at_5: 0.95, mrr: 0.85 }
+    ar: { recall_at_1: 0.70, recall_at_5: 0.90, mrr: 0.80 }
+
+generation:
+  # Needs Azure OpenAI (chat + reasoning deployments): `run_eval.py --generation`.
+  groundedness: 0.90        # answerable questions whose claims are all supported (reasoning-model grader)
+  citation_rate: 0.90       # answerable questions that cite at least one valid [S#]
+  refusal_accuracy: 0.90    # unanswerable questions the assistant declines
+  language_match: 0.95      # answer language == question language
