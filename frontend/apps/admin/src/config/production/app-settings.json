@@ -1,0 +1,16 @@
+{
+  "application": { "name": "Qal'a Admin", "baseUrl": "https://admin.example.com" },
+  "oAuthConfig": {
+    "issuer": "https://api.example.com/",
+    "clientId": "Qala_Admin",
+    "responseType": "code",
+    "scope": "openid profile email offline_access players-api matches-api",
+    "requireHttps": true
+  },
+  "apis": {
+    "players": { "url": "https://api.example.com/players-api" },
+    "matches": { "url": "https://api.example.com/matches-api" }
+  },
+  "defaultLanguage": "ar",
+  "useMockApi": false
+}

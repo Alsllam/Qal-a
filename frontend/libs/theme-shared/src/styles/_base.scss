@@ -1,0 +1,90 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-arabic);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: var(--surface-sunken);
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--motion-base) var(--ease-out),
+    color var(--motion-base) var(--ease-out);
+}
+html[lang='en'] body {
+  font-family: var(--font-latin);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.25;
+}
+a {
+  color: var(--primary);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.num,
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+// Page transitions (router withViewTransitions): fade + rise 8 px.
+::view-transition-old(root) {
+  animation: vt-out var(--motion-base) var(--ease-in) both;
+}
+::view-transition-new(root) {
+  animation: vt-in var(--motion-slow) var(--ease-out) both;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

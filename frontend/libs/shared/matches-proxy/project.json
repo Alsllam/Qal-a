@@ -1,0 +1,21 @@
+{
+  "name": "matches-proxy",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shared/matches-proxy/src",
+  "prefix": "app",
+  "projectType": "library",
+  "tags": ["type:proxy"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/shared/matches-proxy/jest.config.ts",
+        "tsConfig": "libs/shared/matches-proxy/tsconfig.spec.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

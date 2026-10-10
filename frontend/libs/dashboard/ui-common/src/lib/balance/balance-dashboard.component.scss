@@ -1,0 +1,21 @@
+.filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filters label {
+  min-width: 140px;
+}
+.error {
+  margin-block-end: 16px;
+  color: var(--status-danger-fg);
+  background: var(--status-danger-bg);
+}
+.chart-placeholder {
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}
+.source {
+  font-size: var(--fs-xs);
+  margin-block-start: 16px;
+}

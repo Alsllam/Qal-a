@@ -1,0 +1,40 @@
+<div class="login-page">
+  <div class="toolbar">
+    <button type="button" class="btn btn-ghost" (click)="l10n.toggleLanguage()">
+      <app-icon name="globe" [size]="18" />
+      <span>{{ l10n.currentLang() === 'ar' ? 'English' : 'العربية' }}</span>
+    </button>
+    <button
+      type="button"
+      class="btn btn-icon"
+      (click)="theme.toggle()"
+      [attr.aria-label]="
+        (theme.isDark() ? 'General.LightMode' : 'General.DarkMode') | translate
+      "
+    >
+      <app-icon [name]="theme.isDark() ? 'sun' : 'moon'" />
+    </button>
+  </div>
+  <main class="login-card card">
+    <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+      <path class="tower" d="M12 58V14h8v6h8v-6h8v6h8v-6h8v44z" />
+      <path
+        class="drop"
+        d="M32 30c0 0-10 11.5-10 18a10 10 0 0 0 20 0c0-6.5-10-18-10-18z"
+      />
+    </svg>
+    <p class="wordmark">{{ wordmark() }}</p>
+    <h1>{{ 'Login.Title' | translate }}</h1>
+    <p class="lead">{{ 'Login.Subtitle' | translate }}</p>
+    @if (auth.mockMode) {
+    <button type="button" class="btn btn-primary wide" (click)="devSignIn()">
+      {{ 'Login.DevSignIn' | translate }}
+    </button>
+    <p class="hint">{{ 'Login.DevHint' | translate }}</p>
+    } @else {
+    <button type="button" class="btn btn-primary wide" (click)="signIn()">
+      {{ 'Login.SignIn' | translate }}
+    </button>
+    }
+  </main>
+</div>

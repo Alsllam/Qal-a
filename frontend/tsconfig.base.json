@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@qala-fe/Board": ["libs/shared/board/src/index.ts"],
+      "@qala-fe/Charts": ["libs/shared/charts/src/index.ts"],
+      "@qala-fe/Core": ["libs/core/src/index.ts"],
+      "@qala-fe/DashboardConfig": ["libs/dashboard/config/src/index.ts"],
+      "@qala-fe/DashboardUiCommon": ["libs/dashboard/ui-common/src/index.ts"],
+      "@qala-fe/MatchesConfig": ["libs/matches/config/src/index.ts"],
+      "@qala-fe/MatchesProxy": ["libs/shared/matches-proxy/src/index.ts"],
+      "@qala-fe/MatchesUiCommon": ["libs/matches/ui-common/src/index.ts"],
+      "@qala-fe/PlayersConfig": ["libs/players/config/src/index.ts"],
+      "@qala-fe/PlayersProxy": ["libs/shared/players-proxy/src/index.ts"],
+      "@qala-fe/PlayersUiCommon": ["libs/players/ui-common/src/index.ts"],
+      "@qala-fe/theme-shared": ["libs/theme-shared/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}

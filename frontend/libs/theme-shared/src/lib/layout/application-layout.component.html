@@ -1,0 +1,128 @@
+<a class="skip-link" href="#main">{{ 'General.SkipToContent' | translate }}</a>
+<div class="shell" [class.open]="sidebarOpen()">
+  <aside class="sidebar" [attr.aria-label]="'Menu.Main' | translate">
+    <div class="sidebar-inner">
+      <div class="brand">
+        <a
+          routerLink="/"
+          class="brand-link"
+          [attr.aria-label]="'App.Name' | translate"
+        >
+          @if (theme.isDark()) {
+          <span class="mark-mono" aria-hidden="true"></span>
+          <span class="wordmark">{{ 'App.Wordmark' | translate }}</span>
+          } @else {
+          <img
+            [src]="logoSrc()"
+            [alt]="'App.Name' | translate"
+            width="120"
+            height="45"
+          />
+          }
+        </a>
+        <span class="console-tag">{{ 'App.Console' | translate }}</span>
+        <button
+          type="button"
+          class="btn btn-icon close-nav"
+          (click)="toggleSidebar()"
+          [attr.aria-label]="'General.CloseMenu' | translate"
+        >
+          <app-icon name="close" />
+        </button>
+      </div>
+      <nav class="nav">
+        <ul>
+          @for (item of routes.visible(); track item.name) {
+          <li>
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="active"
+              class="nav-link"
+            >
+              @if (item.icon) {
+              <app-icon [name]="item.icon" />
+              }
+              <span>{{ item.name | translate }}</span>
+            </a>
+            @if (item.children.length) {
+            <ul class="sub">
+              @for (child of item.children; track child.name) {
+              <li>
+                <a
+                  [routerLink]="child.path"
+                  routerLinkActive="active"
+                  class="nav-link"
+                  >{{ child.name | translate }}</a
+                >
+              </li>
+              }
+            </ul>
+            }
+          </li>
+          }
+        </ul>
+      </nav>
+      <div class="sidebar-foot">
+        <span>{{ 'App.RulesVersion' | translate }}</span>
+      </div>
+    </div>
+  </aside>
+  <div class="backdrop" (click)="toggleSidebar()" aria-hidden="true"></div>
+
+  <div class="main-col">
+    <header class="topbar">
+      <button
+        type="button"
+        class="btn btn-icon open-nav"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="'General.OpenMenu' | translate"
+      >
+        <app-icon name="menu" />
+      </button>
+      @if (mockMode) {
+      <span class="mock-badge" [title]="'App.MockHint' | translate">{{
+        'App.MockData' | translate
+      }}</span>
+      }
+      <span class="spacer"></span>
+      <button
+        type="button"
+        class="btn btn-ghost lang"
+        (click)="l10n.toggleLanguage()"
+        [attr.aria-label]="'General.SwitchLanguage' | translate"
+      >
+        <app-icon name="globe" [size]="18" />
+        <span [attr.lang]="l10n.currentLang() === 'ar' ? 'en' : 'ar'">{{
+          l10n.currentLang() === 'ar' ? 'English' : 'العربية'
+        }}</span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-icon"
+        (click)="theme.toggle()"
+        [attr.aria-label]="
+          (theme.isDark() ? 'General.LightMode' : 'General.DarkMode')
+            | translate
+        "
+        [attr.aria-pressed]="theme.isDark()"
+      >
+        <app-icon [name]="theme.isDark() ? 'sun' : 'moon'" />
+      </button>
+      <div class="user">
+        <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+        <span class="user-name">{{ auth.userName() }}</span>
+        <button
+          type="button"
+          class="btn btn-icon"
+          (click)="logout()"
+          [attr.aria-label]="'General.Logout' | translate"
+        >
+          <app-icon name="logout" [mirror]="true" />
+        </button>
+      </div>
+    </header>
+    <main id="main" class="content" tabindex="-1">
+      <router-outlet />
+    </main>
+  </div>
+</div>

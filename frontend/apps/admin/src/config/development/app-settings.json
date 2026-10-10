@@ -1,0 +1,17 @@
+{
+  "application": { "name": "Qal'a Admin", "baseUrl": "http://localhost:4200" },
+  "oAuthConfig": {
+    "issuer": "https://localhost:5000/",
+    "clientId": "Qala_Admin",
+    "responseType": "code",
+    "scope": "openid profile email offline_access players-api matches-api",
+    "requireHttps": false,
+    "showDebugInformation": true
+  },
+  "apis": {
+    "players": { "url": "https://localhost:5000/players-api" },
+    "matches": { "url": "https://localhost:5000/matches-api" }
+  },
+  "defaultLanguage": "ar",
+  "useMockApi": true
+}

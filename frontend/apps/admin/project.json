@@ -1,0 +1,184 @@
+{
+  "name": "admin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/admin/src",
+  "tags": [
+    "type:app"
+  ],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/apps/admin",
+        "browser": "apps/admin/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/admin/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          {
+            "glob": "**/*",
+            "input": "apps/admin/public"
+          },
+          {
+            "glob": "**/*",
+            "input": "apps/admin/src/assets",
+            "output": "assets"
+          },
+          {
+            "glob": "app-settings.json",
+            "input": "apps/admin/src/config/development",
+            "output": "assets"
+          }
+        ],
+        "styles": [
+          "apps/admin/src/styles.scss"
+        ],
+        "stylePreprocessorOptions": {
+          "includePaths": [
+            "node_modules"
+          ]
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "1mb",
+              "maximumError": "1.5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
+          "outputHashing": "all",
+          "assets": [
+            {
+              "glob": "**/*",
+              "input": "apps/admin/public"
+            },
+            {
+              "glob": "**/*",
+              "input": "apps/admin/src/assets",
+              "output": "assets"
+            },
+            {
+              "glob": "app-settings.json",
+              "input": "apps/admin/src/config/production",
+              "output": "assets"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/admin/src/environments/environment.ts",
+              "with": "apps/admin/src/environments/environment.prod.ts"
+            },
+            {
+              "replace": "apps/admin/src/mocks/load-mock-api.ts",
+              "with": "apps/admin/src/mocks/load-mock-api.prod.ts"
+            }
+          ]
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        },
+        "demo": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "1mb",
+              "maximumError": "1.5mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "6kb",
+              "maximumError": "10kb"
+            }
+          ],
+          "outputHashing": "all",
+          "assets": [
+            {
+              "glob": "**/*",
+              "input": "apps/admin/public"
+            },
+            {
+              "glob": "**/*",
+              "input": "apps/admin/src/assets",
+              "output": "assets"
+            },
+            {
+              "glob": "app-settings.json",
+              "input": "apps/admin/src/config/development",
+              "output": "assets"
+            }
+          ],
+          "outputPath": "dist/apps/admin-demo"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "admin:build:production"
+        },
+        "development": {
+          "buildTarget": "admin:build:development"
+        },
+        "demo": {
+          "buildTarget": "admin:build:demo"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4200
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/admin/jest.config.ts",
+        "tsConfig": "apps/admin/tsconfig.spec.json"
+      }
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "admin:build:demo",
+        "staticFilePath": "dist/apps/admin-demo/browser",
+        "spa": true,
+        "port": 4300
+      }
+    },
+    "screenshots": {
+      "executor": "nx:run-commands",
+      "dependsOn": [
+        "build"
+      ],
+      "options": {
+        "command": "node tools/screenshots.mjs",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

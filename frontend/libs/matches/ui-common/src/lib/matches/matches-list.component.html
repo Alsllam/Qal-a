@@ -1,0 +1,63 @@
+<app-page-header
+  title="Matches.Title"
+  subtitle="Matches.Subtitle"
+  [breadcrumbs]="[{ label: 'Menu.Home', link: '/' }, { label: 'Menu.Matches' }]"
+/>
+
+<section class="card">
+  <app-matches-list-filter />
+  <app-paged-table [list]="list" [columns]="columns" emptyTitle="Matches.Empty">
+    <ng-template appTableRow let-item>
+      @let m = row(item);
+      <td>
+        <div class="players">
+          <span class="side"
+            ><span class="dot south" aria-hidden="true"></span
+            ><bdi>{{ m.south.displayName }}</bdi>
+            <span class="text-muted num"
+              >({{ m.south.rating | enar }})</span
+            ></span
+          >
+          <span class="side"
+            ><span class="dot north" aria-hidden="true"></span
+            ><bdi>{{ m.north.displayName }}</bdi>
+            <span class="text-muted num"
+              >({{ m.north.rating | enar }})</span
+            ></span
+          >
+        </div>
+      </td>
+      <td>
+        {{ resultKey(m) | translate }}
+        @if (m.outcome) {
+        <span class="reason">{{
+          'EndReason.' + m.outcome.reason | translate
+        }}</span>
+        }
+      </td>
+      <td class="align-end num hide-mobile">{{ m.plies | enar }}</td>
+      <td class="hide-mobile">v{{ m.rulesVersion }}</td>
+      <td>
+        <span
+          class="status-tag"
+          [class]="'status-tag status-tag-' + statusTone(m.status)"
+          >{{ 'Matches.Status' + m.status | translate }}</span
+        >
+      </td>
+      <td class="hide-mobile num">
+        {{
+          l10n.formatDate(m.startedAt, {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          })
+        }}
+      </td>
+      <td class="align-end">
+        <a class="btn btn-sm btn-secondary" [routerLink]="['view', m.id]">
+          <app-icon name="eye" [size]="16" />
+          {{ 'Matches.Replay' | translate }}
+        </a>
+      </td>
+    </ng-template>
+  </app-paged-table>
+</section>

@@ -1,0 +1,144 @@
+<app-page-header title="Dashboard.Title" subtitle="Dashboard.Subtitle">
+  <div
+    class="filters"
+    role="group"
+    [attr.aria-label]="'Dashboard.Filters' | translate"
+  >
+    <label>
+      <span class="form-label">{{ 'General.RulesVersion' | translate }}</span>
+      <select
+        class="form-select"
+        (change)="setVersion($any($event.target).value)"
+      >
+        @for (v of versions; track v) {
+        <option [value]="v" [selected]="v === rulesVersion()">v{{ v }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      <span class="form-label">{{ 'Dashboard.Period' | translate }}</span>
+      <select
+        class="form-select"
+        (change)="setPeriod($any($event.target).value)"
+      >
+        @for (p of periods; track p) {
+        <option [value]="p" [selected]="p === periodDays()">
+          {{ 'Dashboard.Last' + p + 'Days' | translate }}
+        </option>
+        }
+      </select>
+    </label>
+  </div>
+</app-page-header>
+
+@if (stats.error()) {
+<div class="card error" role="alert">{{ 'General.LoadError' | translate }}</div>
+}
+
+<section class="grid grid-kpi" [attr.aria-label]="'Dashboard.Kpis' | translate">
+  <app-kpi-card
+    [label]="'Dashboard.SouthScore' | translate"
+    icon="scale"
+    [loading]="loading()"
+    [value]="data()?.southScore ?? null"
+    [format]="pct"
+    [tone]="southKpi()?.tone ?? 'neutral'"
+    [badge]="southKpi()?.badge ?? ''"
+    [comparison]="southKpi()?.comparison ?? ''"
+  />
+  <app-kpi-card
+    [label]="'Dashboard.Draws' | translate"
+    icon="drop"
+    [loading]="loading()"
+    [value]="drawRate()"
+    [format]="pct"
+    [tone]="drawKpi()?.tone ?? 'neutral'"
+    [badge]="drawKpi()?.badge ?? ''"
+    [comparison]="drawKpi()?.comparison ?? ''"
+  />
+  <app-kpi-card
+    [label]="'Dashboard.MeanLength' | translate"
+    icon="ruler"
+    [loading]="loading()"
+    [value]="data()?.meanPlies ?? null"
+    [format]="dec"
+    [tone]="lengthKpi()?.tone ?? 'neutral'"
+    [badge]="lengthKpi()?.badge ?? ''"
+    [comparison]="lengthKpi()?.comparison ?? ''"
+  />
+  <app-kpi-card
+    [label]="'Dashboard.Games' | translate"
+    icon="trophy"
+    [loading]="loading()"
+    [value]="data()?.games ?? null"
+    [format]="int"
+    [comparison]="gamesKpi()?.comparison ?? ''"
+    [sparkline]="gamesKpi()?.sparkline ?? null"
+  />
+</section>
+
+<div class="grid grid-2 mt-16">
+  <section class="card">
+    <h2 class="card-title">{{ 'Dashboard.SouthByDay' | translate }}</h2>
+    <p class="card-subtitle">{{ 'Dashboard.SouthByDayHint' | translate }}</p>
+    @defer (on viewport) {
+    <app-chart
+      [options]="southByDay()"
+      [loading]="loading()"
+      [height]="340"
+      [ariaLabel]="'Dashboard.SouthByDay' | translate"
+    />
+    } @placeholder {
+    <div class="chart-placeholder" style="height: 340px"></div>
+    }
+  </section>
+  <section class="card">
+    <h2 class="card-title">{{ 'Dashboard.EndReasons' | translate }}</h2>
+    <p class="card-subtitle">{{ 'Dashboard.EndReasonsHint' | translate }}</p>
+    @defer (on viewport) {
+    <app-chart
+      [options]="endReasonsDonut()"
+      [loading]="loading()"
+      [empty]="!endReasonItems().length"
+      [height]="340"
+      [ariaLabel]="'Dashboard.EndReasons' | translate"
+    />
+    } @placeholder {
+    <div class="chart-placeholder" style="height: 340px"></div>
+    }
+  </section>
+  <section class="card">
+    <h2 class="card-title">{{ 'Dashboard.GameLength' | translate }}</h2>
+    <p class="card-subtitle">{{ lengthSubtitle() }}</p>
+    @defer (on viewport) {
+    <app-chart
+      [options]="lengthHistogram()"
+      [loading]="loading()"
+      [height]="280"
+      [ariaLabel]="'Dashboard.GameLength' | translate"
+    />
+    } @placeholder {
+    <div class="chart-placeholder" style="height: 280px"></div>
+    }
+  </section>
+  <section class="card">
+    <h2 class="card-title">{{ 'Dashboard.EndReasonsVsAi' | translate }}</h2>
+    <p class="card-subtitle">
+      {{
+        'Dashboard.EndReasonsVsAiHint' | translate : { version: rulesVersion() }
+      }}
+    </p>
+    @defer (on viewport) {
+    <app-chart
+      [options]="endReasonsVsAi()"
+      [loading]="loading()"
+      [height]="280"
+      [ariaLabel]="'Dashboard.EndReasonsVsAi' | translate"
+    />
+    } @placeholder {
+    <div class="chart-placeholder" style="height: 280px"></div>
+    }
+  </section>
+</div>
+
+<p class="source text-muted">{{ 'Dashboard.Source' | translate }}</p>

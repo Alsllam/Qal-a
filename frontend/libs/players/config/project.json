@@ -1,0 +1,21 @@
+{
+  "name": "players-config",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/players/config/src",
+  "prefix": "app",
+  "projectType": "library",
+  "tags": ["type:config"],
+  "targets": {
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "libs/players/config/jest.config.ts",
+        "tsConfig": "libs/players/config/tsconfig.spec.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+// Global theme for Qal'a apps. Import once from the app's styles.scss.
+@use 'generated/brand-tokens';
+@use 'derived';
+@use 'fonts';
+@use 'base';
+@use 'components';

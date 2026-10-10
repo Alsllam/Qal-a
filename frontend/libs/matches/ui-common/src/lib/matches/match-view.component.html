@@ -1,0 +1,100 @@
+@if (match.isLoading()) {
+<app-skeleton [lines]="1" />
+<div class="layout mt-16">
+  <section class="card"><app-skeleton [height]="420" /></section>
+  <section class="card"><app-skeleton [lines]="6" /></section>
+</div>
+} @else if (match.error()) {
+<section class="card">
+  <app-empty-state icon="alert" [title]="'Matches.NotFound' | translate" />
+</section>
+} @else if (match.value(); as m) {
+<app-page-header
+  [title]="title()"
+  [titleRaw]="true"
+  [breadcrumbs]="[
+    { label: 'Menu.Home', link: '/' },
+    { label: 'Menu.Matches', link: '/matches' },
+    { label: 'Matches.Replay' }
+  ]"
+/>
+<div class="layout">
+  <section class="card">
+    <h2 class="card-title">{{ 'Matches.Replay' | translate }}</h2>
+    <p class="card-subtitle">{{ 'Matches.ReplayHint' | translate }}</p>
+    <app-board-replay
+      [moves]="m.moves"
+      [finalPosition]="m.position"
+      tabindex="0"
+    />
+  </section>
+  <aside class="card">
+    <div class="versus">
+      <div class="side">
+        <span class="dot south" aria-hidden="true"></span>
+        <span class="name"
+          ><bdi>{{ m.south.displayName }}</bdi></span
+        >
+        <span class="text-muted num">{{ m.south.rating | enar }}</span>
+        @if (m.outcome?.winner === 'south') {
+        <span class="winner">{{ 'Matches.Winner' | translate }}</span>
+        }
+      </div>
+      <div class="side">
+        <span class="dot north" aria-hidden="true"></span>
+        <span class="name"
+          ><bdi>{{ m.north.displayName }}</bdi></span
+        >
+        <span class="text-muted num">{{ m.north.rating | enar }}</span>
+        @if (m.outcome?.winner === 'north') {
+        <span class="winner">{{ 'Matches.Winner' | translate }}</span>
+        }
+      </div>
+    </div>
+    <dl>
+      <dt>{{ 'Matches.Status' | translate }}</dt>
+      <dd>
+        <span [class]="'status-tag status-tag-' + statusTone(m.status)">{{
+          'Matches.Status' + m.status | translate
+        }}</span>
+      </dd>
+      <dt>{{ 'Matches.Result' | translate }}</dt>
+      <dd>{{ resultKey(m) | translate }}</dd>
+      @if (m.outcome) {
+      <dt>{{ 'Matches.EndReason' | translate }}</dt>
+      <dd>{{ 'EndReason.' + m.outcome.reason | translate }}</dd>
+      }
+      <dt>{{ 'Matches.Plies' | translate }}</dt>
+      <dd class="num">{{ m.moves.length | enar }}</dd>
+      <dt>{{ 'General.RulesVersion' | translate }}</dt>
+      <dd>v{{ m.rulesVersion }}</dd>
+      <dt>{{ 'Matches.Clocks' | translate }}</dt>
+      <dd class="num">
+        {{ clock(m.clocks.southMs) }} · {{ clock(m.clocks.northMs) }} (+{{
+          m.clocks.incrementMs / 1000 | enar
+        }}s)
+      </dd>
+      <dt>{{ 'Matches.Started' | translate }}</dt>
+      <dd>
+        {{
+          l10n.formatDate(m.startedAt, {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          })
+        }}
+      </dd>
+      @if (m.finishedAt) {
+      <dt>{{ 'Matches.Finished' | translate }}</dt>
+      <dd>
+        {{
+          l10n.formatDate(m.finishedAt, {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          })
+        }}
+      </dd>
+      }
+    </dl>
+  </aside>
+</div>
+}

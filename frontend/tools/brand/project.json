@@ -1,0 +1,16 @@
+{
+  "name": "brand",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "tags": ["type:tooling"],
+  "targets": {
+    "sync": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "options": {
+        "command": "node tools/sync-brand.mjs",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+<app-page-header
+  title="Players.Title"
+  subtitle="Players.Subtitle"
+  [breadcrumbs]="[{ label: 'Menu.Home', link: '/' }, { label: 'Menu.Players' }]"
+/>
+
+<section class="card">
+  <app-players-list-filter />
+  <app-paged-table [list]="list" [columns]="columns" emptyTitle="Players.Empty">
+    <ng-template appTableRow let-item>
+      @let p = row(item);
+      <td>
+        <div class="player-name">
+          <bdi>{{ p.displayName }}</bdi>
+        </div>
+        @if (p.email) {
+        <div class="text-muted small">
+          <bdi dir="ltr">{{ p.email }}</bdi>
+        </div>
+        }
+      </td>
+      <td class="align-end num">
+        <strong>{{ p.rating | enar }}</strong>
+        <span class="text-muted"> ± {{ p.ratingDeviation | enar }}</span>
+      </td>
+      <td class="align-end num hide-mobile">{{ p.gamesPlayed | enar }}</td>
+      <td class="align-end num hide-mobile">
+        <span [attr.aria-label]="'Players.RecordLabel' | translate"
+          >{{ p.wins | enar }} / {{ p.draws | enar }} /
+          {{ p.losses | enar }}</span
+        >
+      </td>
+      <td>
+        @if (p.isActive) {
+        <span class="status-tag status-tag-success">{{
+          'Players.Active' | translate
+        }}</span>
+        } @else {
+        <span class="status-tag status-tag-danger">{{
+          'Players.Banned' | translate
+        }}</span>
+        }
+      </td>
+      <td class="hide-mobile num">{{ l10n.formatDate(p.creationTime) }}</td>
+      <td class="align-end">
+        <div class="row-actions">
+          @if (p.isActive) {
+          <button
+            *appPermission="permissions.Players.ManagePlayer"
+            type="button"
+            class="btn btn-sm btn-secondary ban-btn"
+            (click)="ban(p)"
+          >
+            <app-icon name="ban" [size]="16" />
+            {{ 'Players.Ban' | translate }}
+          </button>
+          } @else {
+          <button
+            *appPermission="permissions.Players.ManagePlayer"
+            type="button"
+            class="btn btn-sm btn-secondary unban-btn"
+            (click)="unban(p)"
+          >
+            <app-icon name="check" [size]="16" />
+            {{ 'Players.Unban' | translate }}
+          </button>
+          }
+        </div>
+      </td>
+    </ng-template>
+  </app-paged-table>
+</section>
